@@ -31,14 +31,14 @@ namespace PortfolioT.RestApi.GitHub
 
 
 
-        public async Task<List<Repository>> getInfoAsync(string link, HttpClient httpClient)
+        public async Task<List<GitHubRepository>> getInfoAsync(string link, HttpClient httpClient)
         {
             if (!checkLink(link))
                 throw new Exception("Неверная сслыка на профиль GitHub");
             string userLogin = link.Replace(URL, "");
             
-            List<Repository> repos = new List<Repository>();
-
+            List<GitHubRepository> repos = new List<GitHubRepository>();
+            
             int page = 1;
             int last_page = 1;
             while (page <= last_page)
@@ -72,27 +72,34 @@ namespace PortfolioT.RestApi.GitHub
                 page += 1;
                 
                 string str = await response.Content.ReadAsStringAsync();
-                List<Repository> repositoryResponse = JsonSerializer.Deserialize<List<Repository>>(str);
+                List<GitHubRepository> repositoryResponse = JsonSerializer.Deserialize<List<GitHubRepository>>(str);
                 if(repositoryResponse != null)
                     repos.AddRange(repositoryResponse);
 
             }
             foreach(var repo in repos)
             {
-                Console.WriteLine(repo.name);
-                repo.branches = await getBranches(userLogin, repo.name, httpClient);
-                
-                foreach(var branch in repo.branches)
+                repo.link = URL + repo.full_name;
+                List<GitHubBranch> branches = await getBranches(userLogin, repo.name, httpClient);
+                HashSet<string> commits = new HashSet<string>();
+                foreach (var branch in branches)
                 {
-                    Console.WriteLine("br-" + branch.name);
-                    branch.commits = await getCommits(userLogin, repo.name, branch.name, httpClient);
+                    List<GitHubCommitSha> shaes = await getCommitShaes(userLogin, repo.name, formatStringQuery(branch.name), httpClient);
+                    foreach (GitHubCommitSha sha in shaes)
+                    {
+                        commits.Add(sha.sha);
+                    }
                 }
+                repo.commits = await getCommits(userLogin, repo.name, commits, httpClient);
+                
+                if (repo.fork)
+                    repo.pullRequests = await getPRs(userLogin, repo.name, httpClient);
 
             }
             return repos;
         }
 
-        public async Task<List<Branch>> getBranches(string userLogin, string repoName, HttpClient httpClient)
+        public async Task<List<GitHubBranch>> getBranches(string userLogin, string repoName, HttpClient httpClient)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.github.com/repos/{userLogin}/{repoName}/branches?per_page=100");
             request.Headers.Add("User-Agent", "Mozilla Failfox 5.6");
@@ -102,15 +109,19 @@ namespace PortfolioT.RestApi.GitHub
             using var response = await httpClient.SendAsync(request);
 
             string str = await response.Content.ReadAsStringAsync();
-            List<Branch> repositoryResponse = JsonSerializer.Deserialize<List<Branch>>(str) ?? new List<Branch>();
+            List<GitHubBranch> repositoryResponse = JsonSerializer.Deserialize<List<GitHubBranch>>(str) ?? new List<GitHubBranch>();
 
             return repositoryResponse;
         }
 
-        public async Task<List<Commit>> getCommits(string userLogin, string repoName, string branchName, HttpClient httpClient)
+        public string formatStringQuery(string value)
         {
-            List<CommitSha> commitShaes = new List<CommitSha>();
+            return value.Replace("&", "%26");
+        }
 
+        public async Task<List<GitHubCommitSha>> getCommitShaes(string userLogin, string repoName, string branchName, HttpClient httpClient)
+        {
+            List<GitHubCommitSha> commitShaes = new List<GitHubCommitSha>();
             int page = 1;
 
             int last_page = 1;
@@ -146,32 +157,48 @@ namespace PortfolioT.RestApi.GitHub
                 page += 1;
 
                 string str = await response.Content.ReadAsStringAsync();
-                List<CommitSha> repositoryResponse = JsonSerializer.Deserialize<List<CommitSha>>(str) ?? new List<CommitSha>();
+                List<GitHubCommitSha> repositoryResponse = JsonSerializer.Deserialize<List<GitHubCommitSha>>(str) ?? new List<GitHubCommitSha>();
 
                 commitShaes.AddRange(repositoryResponse);
             }
-            List<Commit> commits = new List<Commit>();
-            foreach(var sha in commitShaes)
-            {
-                using var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.github.com/repos/{userLogin}/{repoName}/commits/{sha.sha}");
+            
 
+            return commitShaes;
+        }
+
+        public async Task<List<GitHubCommit>> getCommits(string userLogin, string repoName, IEnumerable<string> shaes, HttpClient httpClient)
+        {
+            List<GitHubCommit> commits = new List<GitHubCommit>();
+            foreach(string sha in shaes)
+            {
+                using var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.github.com/repos/{userLogin}/{repoName}/commits/{sha}");
                 request.Headers.Add("User-Agent", "Mozilla Failfox 5.6");
                 request.Headers.Add("Accept", "application/vnd.github+json");
-
                 request.Headers.Add("Authorization", "token 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");
 
                 using var response = await httpClient.SendAsync(request);
 
                 string str = await response.Content.ReadAsStringAsync();
-
-                Commit commitResponse = JsonSerializer.Deserialize<Commit>(str);
-                
-                Console.WriteLine(commitResponse.commit.message);
-                commits.Add(commitResponse);
-
+                GitHubCommit repositoryResponse = JsonSerializer.Deserialize<GitHubCommit>(str) ?? new GitHubCommit();
+                commits.Add(repositoryResponse);
             }
+            
 
             return commits;
+        }
+        public async Task<List<GitHubPullRequest>> getPRs(string userLogin, string repoName, HttpClient httpClient)
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"https://api.github.com/repos/{userLogin}/{repoName}/pulls?per_page=100");
+            request.Headers.Add("User-Agent", "Mozilla Failfox 5.6");
+            request.Headers.Add("Accept", "application/vnd.github+json");
+            request.Headers.Add("Authorization", "token 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");
+
+            using var response = await httpClient.SendAsync(request);
+
+            string str = await response.Content.ReadAsStringAsync();
+            List<GitHubPullRequest> repositoryResponse = JsonSerializer.Deserialize<List<GitHubPullRequest>>(str) ?? new List<GitHubPullRequest>();
+
+            return repositoryResponse;
         }
     }
 }

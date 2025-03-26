@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace PortfolioT.RestApi.Gitea.Models.Support
 {
-    public class Author
+    public class GiteaCommitAuthor
     {
-        public int id { get; set; }
-        public string login { get; set; } = string.Empty;
+        public string name { get; set; } = string.Empty;
+        public string email { get; set; } = string.Empty;
     }
 }

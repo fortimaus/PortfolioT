@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioT.RestApi.GitHub.Models.Support
 {
-    public class Stats
+    public class GitHubStats
     {
         public int additions { get; set; }
 

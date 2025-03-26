@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PortfolioT.RestApi.GitHub.Models.Support
+namespace PortfolioT.RestApi.Gitea.Models.Support
 {
-    public class CommitInfo
+    public class GiteaCommitInfo
     {
-        public Author author { get; set; } = new Author();
-
         public string message { get; set; } = string.Empty;
+
+        public GiteaCommitAuthor author { get; set; } = new GiteaCommitAuthor();
+
     }
 }

@@ -30,7 +30,7 @@ namespace PortfolioT.RestApi.Gitea
 
         
 
-        public async Task<List<Repository>> getInfoAsync(string link, HttpClient httpClient)
+        public async Task<List<GiteaRepository>> getInfoAsync(string link, HttpClient httpClient)
         {
             if (!checkLink(link))
                 throw new Exception("Неверная сслыка на профиль Git УлГТУ");
@@ -41,32 +41,51 @@ namespace PortfolioT.RestApi.Gitea
             
             string str = await response.Content.ReadAsStringAsync();
             
-            List<Repository>? repos = JsonSerializer.Deserialize<List<Repository>>(str).Where(x => !x.empty).ToList();
+            List<GiteaRepository>? repos = JsonSerializer.Deserialize<List<GiteaRepository>>(str).Where(x => !x.empty).ToList();
             foreach (var rep in repos)
             {
-                rep.branches = await getBranches(userLogin, rep.name, httpClient);
-                foreach (var branch in rep.branches)   
+                rep.link = URL + rep.full_name;
+                List<GiteaBranch> branches = await getBranches(userLogin, rep.name, httpClient);
+                Dictionary<string, GiteaCommit> commits = new Dictionary<string, GiteaCommit>();
+                foreach (var branch in branches)   
                 {
-                    branch.commits = await getCommit(userLogin,rep.name,branch.name,httpClient);
+                    List<GiteaCommit> branchCommits = await getCommit(userLogin,rep.name,branch.name,httpClient);
+                    foreach(GiteaCommit commit in branchCommits)
+                    {
+                        if (!commits.ContainsKey(commit.sha))
+                            commits.Add(commit.sha, commit);
+                    }
                 }
+                rep.commits = commits.Values.ToList();
+                if (rep.fork)
+                    rep.pullRequests = await getPRs(userLogin, rep.name, httpClient); 
             }
+
             return repos;
         }
 
-        public async Task<List<Branch>> getBranches(string user, string repo, HttpClient httpClient)
+        public async Task<List<GiteaBranch>> getBranches(string user, string repo, HttpClient httpClient)
         {
             
             var response = await httpClient.GetAsync($"https://git.is.ulstu.ru/api/v1/repos/{user}/{repo}/branches");
             string str = await response.Content.ReadAsStringAsync();
-            List<Branch> branches = JsonSerializer.Deserialize<List<Branch>>(str).ToList();
+            List<GiteaBranch> branches = JsonSerializer.Deserialize<List<GiteaBranch>>(str).ToList();
             return branches;
         }
-        public async Task<List<Commit>> getCommit(string user, string repo, string branch, HttpClient httpClient)
+        public async Task<List<GiteaCommit>> getCommit(string user, string repo, string branch, HttpClient httpClient)
         {
             var response = await httpClient.GetAsync($"https://git.is.ulstu.ru/api/v1/repos/{user}/{repo}/commits?sha={branch}");
             string str = await response.Content.ReadAsStringAsync();
-            List<Commit> commits = JsonSerializer.Deserialize<List<Commit>>(str).ToList();
+            List<GiteaCommit> commits = JsonSerializer.Deserialize<List<GiteaCommit>>(str).ToList();
             return commits;
+        }
+
+        public async Task<List<GiteaPullRequest>> getPRs(string user, string repo, HttpClient httpClient)
+        {
+            var response = await httpClient.GetAsync($"https://git.is.ulstu.ru/api/v1/repos/{user}/{repo}/pulls?state=closed");
+            string str = await response.Content.ReadAsStringAsync();
+            List<GiteaPullRequest> prs = JsonSerializer.Deserialize<List<GiteaPullRequest>>(str).ToList();
+            return prs;
         }
 
     }

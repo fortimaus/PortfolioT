@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PortfolioT.RestApi.GitHub.Models.Support
+namespace PortfolioT.RestApi.GitHub.Models
 {
-    public class Author
+    public class GitHubBranch
     {
         public string name { get; set; } = string.Empty;
-
-        public string email { get; set; } = string.Empty;
-
-        public string date { get; set; } = string.Empty;
 
     }
 }

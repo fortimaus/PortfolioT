@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioT.RestApi.Gitea.Models.Support
 {
-    public class Stats
+    public class GiteaStats
     {
         public int additions { get; set; }
 

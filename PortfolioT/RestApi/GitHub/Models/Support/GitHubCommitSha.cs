@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioT.RestApi.GitHub.Models.Support
 {
-    public class CommitSha
+    public class GitHubCommitSha
     {
         public string sha { get; set; } = string.Empty;
     }
