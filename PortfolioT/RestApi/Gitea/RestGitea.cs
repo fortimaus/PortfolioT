@@ -1,4 +1,5 @@
-﻿using PortfolioT.RestApi.Gitea.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PortfolioT.RestApi.Gitea.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,6 @@ namespace PortfolioT.RestApi.Gitea
         {
             if (!checkLink(link))
                 throw new Exception("Неверная сслыка на профиль Git УлГТУ");
-            
             string userLogin = link.Replace(URL, "");
             
             var response = await httpClient.GetAsync($"https://git.is.ulstu.ru/api/v1/users/{userLogin}/repos");
@@ -45,13 +45,23 @@ namespace PortfolioT.RestApi.Gitea
             foreach (var rep in repos)
             {
                 rep.link = URL + rep.full_name;
+                rep.readme = await getReadme(userLogin, rep.name, httpClient);
                 List<GiteaBranch> branches = await getBranches(userLogin, rep.name, httpClient);
+
                 Dictionary<string, GiteaCommit> commits = new Dictionary<string, GiteaCommit>();
+
+                string user = string.Empty;
+
                 foreach (var branch in branches)   
                 {
                     List<GiteaCommit> branchCommits = await getCommit(userLogin,rep.name,branch.name,httpClient);
                     foreach(GiteaCommit commit in branchCommits)
                     {
+                        if (user.Length == 0)
+                            user = commit.commitAuthor.ToLower();
+                        else if (!user.Equals(commit.commitAuthor.ToLower()))
+                            rep.teamwork = true;
+
                         if (!commits.ContainsKey(commit.sha))
                             commits.Add(commit.sha, commit);
                     }
@@ -86,6 +96,12 @@ namespace PortfolioT.RestApi.Gitea
             string str = await response.Content.ReadAsStringAsync();
             List<GiteaPullRequest> prs = JsonSerializer.Deserialize<List<GiteaPullRequest>>(str).ToList();
             return prs;
+        }
+        public async Task<string> getReadme(string user, string repo, HttpClient httpClient)
+        {
+            var response = await httpClient.GetAsync($"https://git.is.ulstu.ru/api/v1/repos/{user}/{repo}/raw/README.md");
+            string str = await response.Content.ReadAsStringAsync();
+            return str;
         }
 
     }

@@ -16,14 +16,24 @@ namespace PortfolioT.RestApi.GitHub.Models
 
         public GitHubStats stats { get; set; } = new GitHubStats();
 
-        public string commitAuthor { get => commit.author.name; }
+        public GitHubCommitAuthor? author { get; set; }
 
-        public string date { get => commit.author.date; }
+        public string commitAuthor { get
+            {
+                if (author == null)
+                    return commit.author.name;
+                else
+                    return author.login;
+            }
+        }
+
 
         public List<GitHubCommitFile> files { get; set; }
 
         public int additions { get => stats.additions; }
 
         public int deletions { get => stats.deletions; }
+
+        public string message { get => commit.message; }
     }
 }

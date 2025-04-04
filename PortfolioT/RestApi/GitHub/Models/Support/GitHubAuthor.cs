@@ -12,7 +12,6 @@ namespace PortfolioT.RestApi.GitHub.Models.Support
 
         public string email { get; set; } = string.Empty;
 
-        public string date { get; set; } = string.Empty;
 
     }
 }

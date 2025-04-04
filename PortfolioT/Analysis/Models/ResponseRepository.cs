@@ -8,32 +8,23 @@
 
         public string link { get; set; } = string.Empty;
 
-        public string date_create { get; set; } = string.Empty;
+        public string language { get; set; } = string.Empty;
 
-        public string date_last_update { get; set; } = string.Empty;
-
-        public int score { get; set; }
-
-        public double average_date_commit { get; set; }
-
-        public int count_additions { get; set; }
-        public int count_modifieds {get; set;}
-
-        public int count_deletions { get; set; }
+        public float scope_for_decor { get; set; }  = 0f;
+        public float scope_for_code { get; set; } = 0f;
+        public float scope_bonus { get; set; } = 0f;
 
         public ResponseRepository(
-            string title, string description, string date_create, 
-            string date_last_update, double average_date_commit, int count_additions, 
-            int count_modifieds, int count_deletions)
+            string title, string description, string link, string language,
+            float scope_decor, float scope_code, float scope_bonus)
         {
             this.title = title;
             this.description = description;
-            this.date_create = date_create;
-            this.date_last_update = date_last_update;
-            this.average_date_commit = average_date_commit;
-            this.count_additions = count_additions;
-            this.count_modifieds = count_modifieds;
-            this.count_deletions = count_deletions;
+            this.link = link;
+            this.language = language;
+            this.scope_for_decor = MathF.Round(scope_decor, 2);
+            this.scope_for_code = MathF.Round(scope_code, 2);
+            this.scope_bonus = MathF.Round(scope_bonus, 2);
         }
     }
 }

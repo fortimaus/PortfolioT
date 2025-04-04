@@ -12,21 +12,19 @@ namespace PortfolioT.RestApi.Models
         public string name { get; }
 
         public string full_name { get; }
-        public string created_at { get; }
+        public bool teamwork { get; set; }
 
         public string updated_at { get; }
 
         public string description { get; }
+
+        public string readme { get; set; }
 
         public string language { get; }
 
         public string link { get; }
 
         public bool fork { get; }
-
-        public int stars_count { get; }
-
-        public int forks_count { get; }
 
         public bool empty { get; }
 
@@ -35,5 +33,12 @@ namespace PortfolioT.RestApi.Models
         public List<T> commits { get; }
 
         public List<K> pullRequests { get; }
+
+        public int points_for_decor { get; set; }
+
+        public int points_for_code { get; set; }
+
+        public int points_for_teamwork { get; set; }
+
     }
 }

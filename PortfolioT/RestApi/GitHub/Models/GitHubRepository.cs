@@ -16,20 +16,19 @@ namespace PortfolioT.RestApi.GitHub.Models
 
         public string full_name { get; set; } = string.Empty;
 
-        public string created_at { get; set; } = string.Empty;
+        public bool teamwork { get; set; } = false;
 
         public string updated_at { get; set; } = string.Empty;
 
         public bool fork { get; set; } = false;
 
-        public int stargazers_count { get; set; } = 0;
-
-        public int forks_count { get; set; } = 0;
 
         public int size { get; set; }
 
 
         public string description { get; set; } = string.Empty;
+
+        public string readme { get; set; } = string.Empty;
 
         public string default_branch { get; set; } = string.Empty;
 
@@ -40,8 +39,6 @@ namespace PortfolioT.RestApi.GitHub.Models
         public List<GitHubCommit> commits { get; set; } = new List<GitHubCommit>();
 
         public List<GitHubPullRequest> pullRequests { get; set; } = new List<GitHubPullRequest>();
-
-        public int stars_count => stargazers_count;
 
         public bool empty { 
             get
@@ -54,6 +51,12 @@ namespace PortfolioT.RestApi.GitHub.Models
         }
 
         public string defaultBranch => default_branch;
+
+        public int points_for_decor { get; set; }
+
+        public int points_for_code { get; set; }
+
+        public int points_for_teamwork { get; set; }
 
     }
 }

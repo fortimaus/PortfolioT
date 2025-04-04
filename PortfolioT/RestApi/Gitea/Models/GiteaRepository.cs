@@ -14,12 +14,13 @@ namespace PortfolioT.RestApi.Gitea.Models
         public string name { get; set; } = string.Empty;
         public string full_name { get; set; } = string.Empty;
         public string description { get; set; } = string.Empty;
+
+        public string readme { get; set; } = string.Empty;
+
+        public bool teamwork { get; set; } = false;
         public bool empty { get; set; }
         public bool fork { get; set; }
-        public int stars_count { get; set; } = 0;
-        public int forks_count { get; set; } = 0;
         public string default_branch { get; set; } = string.Empty;
-        public string created_at { get; set; } = string.Empty;
         public string updated_at { get; set; } = string.Empty;
         public string link { get; set; } = string.Empty;
         public string language { get; set; } = string.Empty;
@@ -30,6 +31,12 @@ namespace PortfolioT.RestApi.Gitea.Models
         public List<GiteaPullRequest> pullRequests { get; set; } = new List<GiteaPullRequest>();
 
         public string defaultBranch { get => default_branch; }
+
+        public int points_for_decor { get; set; }
+
+        public int points_for_code { get; set; }
+
+        public int points_for_teamwork { get; set; }
 
     }
 }

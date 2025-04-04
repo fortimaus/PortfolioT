@@ -9,7 +9,7 @@ namespace PortfolioT.RestApi.Models
 
         public string commitAuthor { get; }
 
-        public string date { get; }
+        public string message { get; }
 
         public List<T> files{ get; }
 

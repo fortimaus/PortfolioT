@@ -10,5 +10,9 @@ namespace PortfolioT.RestApi.GitHub.Models.Support
     public class GitHubCommitSha
     {
         public string sha { get; set; } = string.Empty;
+
+        public GitHubCommitInfo commit { get; set; } = new GitHubCommitInfo();
+
+        public string author { get => commit.author.name; }
     }
 }
