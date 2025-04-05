@@ -11,8 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="RestApi\Models\Enums\" />
-    <Folder Include="Services\" />
+    <Folder Include="Services\LibService\" />
   </ItemGroup>
 
 </Project>

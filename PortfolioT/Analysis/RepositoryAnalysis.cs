@@ -1,7 +1,6 @@
 ﻿using PortfolioT.Analysis.Models;
-using PortfolioT.RestApi.Gitea.Models;
-using PortfolioT.RestApi.Models;
-using PortfolioT.RestApi.Models.Common;
+using PortfolioT.Services.GitService.Models;
+using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -42,15 +41,11 @@ namespace PortfolioT.Analysis
             sum_points_for_decor = points_for_commits_names + points_for_size_commits;
         }
 
-        public List<ResponseRepository> analysisRepository<T, K, G, L>(List<T> repos, string userLogin)
-            where T: IRepository<K,G,L>
-            where K : ICommit<L>
-            where G : IPullRequest
-            where L : IGitFile
+        public List<ResponseRepository> analysisRepository(IEnumerable<IRepository> repos, string userLogin)
         {
             List<ResponseRepository> response = new List<ResponseRepository>();
             Console.WriteLine("анализ пошел");
-            foreach (T repo in repos)
+            foreach (var repo in repos)
             {
                 if (repo.empty)
                     continue;
@@ -61,37 +56,39 @@ namespace PortfolioT.Analysis
 
                 
                 if (repo.teamwork)
-                    (scope_decor,scope_bonus) = scopeForDecorationCommitManyUsers<K, L>(repo.commits, userLogin);
+                    (scope_decor,scope_bonus) = scopeForDecorationCommitManyUsers(repo.list_commits, userLogin);
                 else
-                    scope_decor += scopeForDecorationCommitSingleUser<K, L>(repo.commits);
+                    scope_decor += scopeForDecorationCommitSingleUser(repo.list_commits);
 
                 scope_decor += checkDescAndReadme(repo.description, repo.readme);
 
-                if (repo.fork && repo.pullRequests.Count > 0)
+                if (repo.fork && repo.list_pullRequests.Count() > 0)
                     scope_bonus += points_for_PR;
                 response.Add(new ResponseRepository(
                     repo.name, repo.description, repo.link, repo.language,
                     scope_decor, scope_code, scope_bonus));
+                Console.WriteLine(OpenZips(repo.zip_path));
+                Console.WriteLine($"decor: {scope_decor} code: {scope_code} bonus: {scope_bonus}");
             }
 
 
             return response;
         }
-        private (float, float) scopeForDecorationCommitManyUsers<K, L>(List<K> commits, string userLogin)
-            where K : ICommit<L>
-            where L : IGitFile
+
+
+        private (float, float) scopeForDecorationCommitManyUsers(IEnumerable<ICommit> commits, string userLogin)
         {
             float scope_for_decor = 0;
             float scope_for_teamwork = 0;
-            List<K> my_commits = new List<K>();
+            List<ICommit> my_commits = new List<ICommit>();
             float sum_changes_lines = 0;
             float my_changes_lines = 0;
             HashSet<string> users = new HashSet<string>();
-            foreach (K commit in commits)
+            foreach (var commit in commits)
             {
                 float commits_lines = commit.additions + commit.deletions;
                 if (commits_lines > code_lot_of_bound)
-                    commits_lines = 0;
+                    commits_lines = 1;
                 users.Add(commit.commitAuthor.ToLower());
                 if (commit.commitAuthor.ToLower().Equals(userLogin.ToLower()))
                 {
@@ -102,20 +99,18 @@ namespace PortfolioT.Analysis
             }
             if (my_commits.Count == 0)
                 return (0, 0);
-            scope_for_decor = scopeForDecorationCommitSingleUser<K, L>(my_commits);
+            scope_for_decor = scopeForDecorationCommitSingleUser(my_commits);
             scope_for_teamwork = 
                 (scope_for_decor / sum_points_for_decor) * (my_changes_lines / (sum_changes_lines/users.Count)) * 10;
             return (scope_for_decor,scope_for_teamwork);
         }
-        private float scopeForDecorationCommitSingleUser<K,L>(List<K> commits)
-            where K: ICommit<L>
-            where L: IGitFile
+        private float scopeForDecorationCommitSingleUser(IEnumerable<ICommit> commits)
         {
             float scope = 0;
             Dictionary<string, float> commit_words = new Dictionary<string, float>();
             float count_words = 0;
             List<float> commit_scopes = new List<float>();
-            foreach(K commit in commits)
+            foreach(ICommit commit in commits)
             {
                 string str = commit.message;
                 str = Regex.Replace(str, "[-.?!)(,:;'[0-9\\]]", "");
@@ -130,7 +125,7 @@ namespace PortfolioT.Analysis
                     count_words += 1;
                 }
                 int commit_scope = codeEffAnalisys(commit.additions + commit.deletions)
-                    + fileChangesAnalisys(commit.files.Count);     
+                    + fileChangesAnalisys(commit.list_files.Count());     
 
                 commit_scopes.Add(commit_scope / sum_points);
             }
@@ -185,7 +180,18 @@ namespace PortfolioT.Analysis
                 return 0;
         }
 
-        
+        private string OpenZips(string path_to_zip)
+        {
+            FileInfo file = new FileInfo(path_to_zip);
+            DirectoryInfo directory = file.Directory;
+            using ZipArchive zip = ZipFile.Open(file.FullName, ZipArchiveMode.Read);
+            string zipDir = @$"{directory.FullName}\{zip.Entries[0].FullName.Replace("/", "")}";
+            if (Directory.Exists(zipDir))
+                Directory.Delete(zipDir, true);
+
+            ZipFile.ExtractToDirectory(file.FullName, directory.FullName);
+            return zipDir;
+        } 
 
 
     }

@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using PortfolioT.RestApi.Gitea;
-using PortfolioT.RestApi.Gitea.Models.Support;
-using PortfolioT.RestApi.Gitea.Models;
-using PortfolioT.RestApi.GitHub;
-using PortfolioT.RestApi.GitHub.Models;
 using System.Diagnostics;
 using PortfolioT.Analysis.Models;
 using PortfolioT.Analysis;
-using PortfolioT.RestApi.GitHub.Models.Support;
+using PortfolioT.Services.GitService.RestApi.GitHub;
 
 namespace PortfolioT.Controllers
 {
