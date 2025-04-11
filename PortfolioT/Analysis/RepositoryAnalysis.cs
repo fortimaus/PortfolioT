@@ -1,8 +1,14 @@
-﻿using PortfolioT.Analysis.Models;
+﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
+using PortfolioT.Analysis.Models;
+using PortfolioT.Analysis.Models.XmlCommon;
 using PortfolioT.Services.GitService.Models;
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Channels;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace PortfolioT.Analysis
 {
@@ -27,6 +33,8 @@ namespace PortfolioT.Analysis
         private int points_for_size_commits = 10;
         private int sum_points_for_decor;
 
+        private int points_for_code = 70;
+
         private int points_for_PR = 10;
 
         private int good_point = 3;
@@ -35,28 +43,39 @@ namespace PortfolioT.Analysis
         private int very_bad_point = 0;
         private float sum_points;
 
+        private int bath_repos = 3;
+        private int bath_get_result = 10;
+
+        private int bath_remove = 5;
+
+        private SonarQubeScanner sonar;
+        private HttpClient httpClient;
         public RepositoryAnalysis()
         {
+            httpClient = new HttpClient();
             sum_points = good_point + middle_point + bad_point;
             sum_points_for_decor = points_for_commits_names + points_for_size_commits;
+            sonar = new SonarQubeScanner(httpClient);
         }
 
-        public List<ResponseRepository> analysisRepository(IEnumerable<IRepository> repos, string userLogin)
+        public async Task<List<ResponseRepository>> analysisRepository(IEnumerable<IRepository> repos, string userLogin)
         {
             List<ResponseRepository> response = new List<ResponseRepository>();
+            Dictionary<int, IRepository> dict_repos = new Dictionary<int, IRepository>();
+            int i = 0;
             Console.WriteLine("анализ пошел");
+
             foreach (var repo in repos)
             {
                 if (repo.empty)
                     continue;
                 Console.WriteLine(repo.name);
                 float scope_decor = 0;
-                float scope_code = 0;
                 float scope_bonus = 0;
 
-                
+
                 if (repo.teamwork)
-                    (scope_decor,scope_bonus) = scopeForDecorationCommitManyUsers(repo.list_commits, userLogin);
+                    (scope_decor, scope_bonus) = scopeForDecorationCommitManyUsers(repo.list_commits, userLogin);
                 else
                     scope_decor += scopeForDecorationCommitSingleUser(repo.list_commits);
 
@@ -64,14 +83,60 @@ namespace PortfolioT.Analysis
 
                 if (repo.fork && repo.list_pullRequests.Count() > 0)
                     scope_bonus += points_for_PR;
-                response.Add(new ResponseRepository(
-                    repo.name, repo.description, repo.link, repo.language,
-                    scope_decor, scope_code, scope_bonus));
-                Console.WriteLine(OpenZips(repo.zip_path));
-                Console.WriteLine($"decor: {scope_decor} code: {scope_code} bonus: {scope_bonus}");
+                repo.dir_path = OpenZips(repo.zip_path);
+
+                repo.scope_decor = scope_decor;
+                repo.scope_bonus = scope_bonus;
+
+                dict_repos.Add(i, repo);
+                i++;
             }
 
+            int pages = (int)Math.Ceiling((float)dict_repos.Keys.Count / bath_repos);
+            
+            for (i = 0; i < pages; i++)
+            {
+                var tasks = dict_repos.Values
+                    .Skip(i * bath_repos)
+                    .Take(bath_repos).Select(x => sonar.analisysCode
+                        (x.language ?? "", x.name, x.dir_path));
+                await Task.WhenAll(tasks);
+            }
 
+            List<AnalisysResponse> results = new List<AnalisysResponse>();
+            Console.WriteLine("Get results");
+            pages = (int)Math.Ceiling((float)dict_repos.Keys.Count / bath_get_result);
+            for (i = 0; i < pages; i++)
+            {
+                var tasks = dict_repos
+                    .Skip(i * bath_get_result)
+                    .Take(bath_get_result).Select(x => sonar.getResultAnalisys
+                        (x.Key, x.Value.name));
+                results.AddRange(await Task.WhenAll(tasks));
+            }
+            foreach (AnalisysResponse result in results)
+            {
+                response.Add(new ResponseRepository(
+                    dict_repos[result.id].name, dict_repos[result.id].description,
+                    dict_repos[result.id].link, dict_repos[result.id].language,
+                    dict_repos[result.id].scope_decor, result.scope_cof * points_for_code, dict_repos[result.id].scope_bonus,
+                    result.comments));
+            }
+
+            foreach(var repo in dict_repos.Values)
+            {
+                deleteZip(repo.zip_path);
+                deleteDir(repo.dir_path);
+            }
+
+            pages = (int)Math.Ceiling((float)response.Count / bath_remove);
+            for (i = 0; i < pages; i++)
+            {
+                var tasks = response
+                    .Skip(i * bath_remove)
+                    .Take(bath_remove).Select(x => sonar.deleteProjects(x.title));
+                await Task.WhenAll(tasks);
+            }
             return response;
         }
 
@@ -100,9 +165,9 @@ namespace PortfolioT.Analysis
             if (my_commits.Count == 0)
                 return (0, 0);
             scope_for_decor = scopeForDecorationCommitSingleUser(my_commits);
-            scope_for_teamwork = 
-                (scope_for_decor / sum_points_for_decor) * (my_changes_lines / (sum_changes_lines/users.Count)) * 10;
-            return (scope_for_decor,scope_for_teamwork);
+            scope_for_teamwork =
+                (scope_for_decor / sum_points_for_decor) * (my_changes_lines / (sum_changes_lines / users.Count)) * 10;
+            return (scope_for_decor, scope_for_teamwork);
         }
         private float scopeForDecorationCommitSingleUser(IEnumerable<ICommit> commits)
         {
@@ -110,7 +175,7 @@ namespace PortfolioT.Analysis
             Dictionary<string, float> commit_words = new Dictionary<string, float>();
             float count_words = 0;
             List<float> commit_scopes = new List<float>();
-            foreach(ICommit commit in commits)
+            foreach (ICommit commit in commits)
             {
                 string str = commit.message;
                 str = Regex.Replace(str, "[-.?!)(,:;'[0-9\\]]", "");
@@ -125,7 +190,7 @@ namespace PortfolioT.Analysis
                     count_words += 1;
                 }
                 int commit_scope = codeEffAnalisys(commit.additions + commit.deletions)
-                    + fileChangesAnalisys(commit.list_files.Count());     
+                    + fileChangesAnalisys(commit.list_files.Count());
 
                 commit_scopes.Add(commit_scope / sum_points);
             }
@@ -180,6 +245,36 @@ namespace PortfolioT.Analysis
                 return 0;
         }
 
+        private bool deleteZip(string path)
+        {
+            try
+            {
+                FileInfo fileInf = new FileInfo(path);
+                if (fileInf.Exists)
+                    fileInf.Delete();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+        }
+        private bool deleteDir(string path)
+        {
+            try
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+                if (dirInfo.Exists)
+                    dirInfo.Delete(true);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
         private string OpenZips(string path_to_zip)
         {
             FileInfo file = new FileInfo(path_to_zip);
@@ -188,11 +283,10 @@ namespace PortfolioT.Analysis
             string zipDir = @$"{directory.FullName}\{zip.Entries[0].FullName.Replace("/", "")}";
             if (Directory.Exists(zipDir))
                 Directory.Delete(zipDir, true);
-
             ZipFile.ExtractToDirectory(file.FullName, directory.FullName);
             return zipDir;
-        } 
+        }
 
-
+        
     }
 }

@@ -12,6 +12,7 @@
         public string updated_at { get; }
 
         public string zip_path { get; }
+        public string dir_path { get; set; }
 
         public string description { get; }
 
@@ -31,6 +32,9 @@
 
         public IEnumerable<IPullRequest> list_pullRequests { get; }
 
+        public float scope_decor { get; set; }
+        public float scope_code { get; set; }
+        public float scope_bonus { get; set; }
 
     }
 }

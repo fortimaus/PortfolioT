@@ -28,14 +28,14 @@ namespace PortfolioT.Services.GitService
             long timeAn = 0;
             stopwatch.Start();
             
-            var repos = await restGitea.getManyReposAsync("stanislav");
+            var repos = await restGitHub.getManyReposAsync("DanilKargin");
             
             stopwatch.Stop();
             timeGet = stopwatch.ElapsedMilliseconds / 1000;
             stopwatch.Reset();
             stopwatch.Start();
             
-            var res = analysis.analysisRepository(repos, "stanislav"); ;
+            var res = await analysis.analysisRepository(repos, "DanilKargin"); ;
             
             stopwatch.Stop();
 

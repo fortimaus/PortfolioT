@@ -23,6 +23,8 @@ namespace PortfolioT.Services.GitService.RestApi.GitHub.Models
         public bool fork { get; set; } = false;
 
         public string zip_path { get; set; } = string.Empty;
+        public string dir_path { get; set; } = string.Empty;
+
         public int size { get; set; }
 
 
@@ -56,6 +58,10 @@ namespace PortfolioT.Services.GitService.RestApi.GitHub.Models
         public IEnumerable<ICommit> list_commits => commits;
 
         public IEnumerable<IPullRequest> list_pullRequests => pullRequests;
+
+        public float scope_decor { get; set; }
+        public float scope_code { get; set; }
+        public float scope_bonus { get; set; }
 
     }
 }
