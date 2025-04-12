@@ -8,6 +8,7 @@ using PortfolioT.Services.GitService.RestApi.GitHub;
 using System.Xml;
 using PortfolioT.Services.LibService;
 using PortfolioT.Services.LibService.Models;
+using PortfolioT.Models.Request;
 
 namespace PortfolioT.Controllers
 {
@@ -20,8 +21,8 @@ namespace PortfolioT.Controllers
         [ActionName("github")]
         public async Task<List<Article>> github(string value)
         {
-            ElibUlstuParser parser = new ElibUlstuParser();
-            var res = await parser.getArticles("Романов", "2010", "2025");
+            LibService service = new LibService();
+            var res = await service.GetUserWorks(new List<ServiceData>());
             Console.WriteLine(res.Count);
             return res;
         }

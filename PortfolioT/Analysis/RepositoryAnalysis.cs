@@ -29,7 +29,7 @@ namespace PortfolioT.Analysis
         private int file_midle_bound = 7;
         private int file_lot_of_bound = 15;
 
-        private int points_for_commits_names = 5;
+        private int points_for_commits_names = 10;
         private int points_for_size_commits = 10;
         private int sum_points_for_decor;
 
@@ -53,7 +53,7 @@ namespace PortfolioT.Analysis
         public RepositoryAnalysis()
         {
             httpClient = new HttpClient();
-            sum_points = good_point + middle_point + bad_point;
+            sum_points = good_point + good_point;
             sum_points_for_decor = points_for_commits_names + points_for_size_commits;
             sonar = new SonarQubeScanner(httpClient);
         }
@@ -130,13 +130,13 @@ namespace PortfolioT.Analysis
             }
 
             pages = (int)Math.Ceiling((float)response.Count / bath_remove);
-            for (i = 0; i < pages; i++)
-            {
-                var tasks = response
-                    .Skip(i * bath_remove)
-                    .Take(bath_remove).Select(x => sonar.deleteProjects(x.title));
-                await Task.WhenAll(tasks);
-            }
+            //for (i = 0; i < pages; i++)
+            //{
+            //    var tasks = response
+            //        .Skip(i * bath_remove)
+            //        .Take(bath_remove).Select(x => sonar.deleteProjects(x.title));
+            //    await Task.WhenAll(tasks);
+            //}
             return response;
         }
 
@@ -173,21 +173,19 @@ namespace PortfolioT.Analysis
         {
             float scope = 0;
             Dictionary<string, float> commit_words = new Dictionary<string, float>();
-            float count_words = 0;
             List<float> commit_scopes = new List<float>();
             foreach (ICommit commit in commits)
             {
                 string str = commit.message;
                 str = Regex.Replace(str, "[-.?!)(,:;'[0-9\\]]", "");
                 str.ToLower();
-                string[] words = str.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                string[] words = str.Split(' ', StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
                 foreach (var word in words)
                 {
                     if (!commit_words.ContainsKey(word))
                         commit_words.Add(word, 1);
                     else
                         commit_words[word] += 1;
-                    count_words += 1;
                 }
                 int commit_scope = codeEffAnalisys(commit.additions + commit.deletions)
                     + fileChangesAnalisys(commit.list_files.Count());
@@ -197,7 +195,7 @@ namespace PortfolioT.Analysis
             int count_groups = 0;
             foreach (var count in commit_words.Values)
             {
-                if ((count / count_words) * 100 >= precent_groups_word)
+                if ((count / commits.Count()) * 100 >= precent_groups_word)
                     count_groups++;
             }
             if (count_groups >= group_word_bound)

@@ -4,6 +4,6 @@ namespace PortfolioT.Services
 {
     public interface IService<T>
     {
-        Task<List<T>> GetUserWorks(List<ServiceData> datas);
+        public Task<List<T>> GetUserWorks(List<ServiceData> datas);
     }
 }
