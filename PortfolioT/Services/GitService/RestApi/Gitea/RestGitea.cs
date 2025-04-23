@@ -61,7 +61,6 @@ namespace PortfolioT.Services.GitService.RestApi.Gitea
             
             string str = await response.Content.ReadAsStringAsync();
             Stopwatch stopwatch = new Stopwatch();
-            Console.WriteLine("Repo \t\t\t commits \t\t\t time");
 
             List<GiteaRepository>? repos = JsonSerializer.Deserialize<List<GiteaRepository>>(str).Where(x => !x.empty).ToList();
             
@@ -69,22 +68,22 @@ namespace PortfolioT.Services.GitService.RestApi.Gitea
             int pages = (int)Math.Ceiling((float)repos.Count / bathRepository);
 
             for (int i = 0; i < pages; i++)
-            {
-                stopwatch.Reset();
-                stopwatch.Start();
+            {                
                 var tasks = repos
                     .Skip(i * bathRepository).Take(bathRepository)
                     .Select(x => getOneRepoAsync(userLogin, x.name));
 
                 resultRepos.AddRange(await Task.WhenAll(tasks));
-                stopwatch.Stop();
-                Console.WriteLine($"{stopwatch.ElapsedMilliseconds / 1000} sec");
+                
             }
             
             return resultRepos;
         }
         public async Task<GiteaRepository> getOneRepoAsync(string userLogin, string repoName)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            
             using var request = new HttpRequestMessage(HttpMethod.Get, $"{API}/repos/{userLogin}/{repoName}");
             using var response = await httpClient.SendAsync(request);
 
@@ -124,6 +123,8 @@ namespace PortfolioT.Services.GitService.RestApi.Gitea
             rep.zip_path = await path_zip;
             if (rep.fork)
                 rep.pullRequests = await getPRs(userLogin, rep.name);
+            stopwatch.Stop();
+            //Console.WriteLine($"{repoName}\t{rep.commits.Count}\t{stopwatch.ElapsedMilliseconds / 1000} sec");
             return rep;
         }
         private async Task<string> getZip(string userLogin, string repoName, string branch)

@@ -63,7 +63,7 @@ namespace PortfolioT.Analysis
             List<ResponseRepository> response = new List<ResponseRepository>();
             Dictionary<int, IRepository> dict_repos = new Dictionary<int, IRepository>();
             int i = 0;
-            Console.WriteLine("анализ пошел");
+            //Console.WriteLine("Start Ananlisys");
 
             foreach (var repo in repos)
             {
@@ -73,13 +73,18 @@ namespace PortfolioT.Analysis
                 float scope_decor = 0;
                 float scope_bonus = 0;
 
+                string comments = string.Empty;
 
                 if (repo.teamwork)
                     (scope_decor, scope_bonus) = scopeForDecorationCommitManyUsers(repo.list_commits, userLogin);
                 else
-                    scope_decor += scopeForDecorationCommitSingleUser(repo.list_commits);
+                    (scope_decor,comments) = scopeForDecorationCommitSingleUser(repo.list_commits);
 
-                scope_decor += checkDescAndReadme(repo.description, repo.readme);
+                float scope_desc_readme = 0;
+                (scope_desc_readme, comments) = checkDescAndReadme(repo.description, repo.readme);
+
+                scope_decor += scope_desc_readme;
+                repo.comments += comments;
 
                 if (repo.fork && repo.list_pullRequests.Count() > 0)
                     scope_bonus += points_for_PR;
@@ -104,7 +109,7 @@ namespace PortfolioT.Analysis
             }
 
             List<AnalisysResponse> results = new List<AnalisysResponse>();
-            Console.WriteLine("Get results");
+            //Console.WriteLine("Get results analisys");
             pages = (int)Math.Ceiling((float)dict_repos.Keys.Count / bath_get_result);
             for (i = 0; i < pages; i++)
             {
@@ -120,7 +125,7 @@ namespace PortfolioT.Analysis
                     dict_repos[result.id].name, dict_repos[result.id].description,
                     dict_repos[result.id].link, dict_repos[result.id].language,
                     dict_repos[result.id].scope_decor, result.scope_cof * points_for_code, dict_repos[result.id].scope_bonus,
-                    result.comments));
+                    dict_repos[result.id].comments + result.comments));
             }
 
             foreach(var repo in dict_repos.Values)
@@ -164,14 +169,15 @@ namespace PortfolioT.Analysis
             }
             if (my_commits.Count == 0)
                 return (0, 0);
-            scope_for_decor = scopeForDecorationCommitSingleUser(my_commits);
+            (scope_for_decor, string test) = scopeForDecorationCommitSingleUser(my_commits);
             scope_for_teamwork =
-                (scope_for_decor / sum_points_for_decor) * (my_changes_lines / (sum_changes_lines / users.Count)) * 10;
+                ((scope_for_decor / sum_points_for_decor) + (my_changes_lines / sum_changes_lines)) * 10;
             return (scope_for_decor, scope_for_teamwork);
         }
-        private float scopeForDecorationCommitSingleUser(IEnumerable<ICommit> commits)
+        private (float, string) scopeForDecorationCommitSingleUser(IEnumerable<ICommit> commits)
         {
             float scope = 0;
+            string comments = string.Empty;
             Dictionary<string, float> commit_words = new Dictionary<string, float>();
             List<float> commit_scopes = new List<float>();
             foreach (ICommit commit in commits)
@@ -200,8 +206,10 @@ namespace PortfolioT.Analysis
             }
             if (count_groups >= group_word_bound)
                 scope += points_for_commits_names;
+            else
+                comments += "Страйтесь писать названия коммитов по единому шаблону";
             scope += points_for_size_commits * (commit_scopes.Average());
-            return scope;
+            return (scope, comments);
         }
         private int codeEffAnalisys(int countChanges)
         {
@@ -225,9 +233,16 @@ namespace PortfolioT.Analysis
             else
                 return very_bad_point;
         }
-        private int checkDescAndReadme(string desc, string readme)
+        private (float, string) checkDescAndReadme(string desc, string readme)
         {
-            return checkString(desc, limit_words_desc) + checkString(readme, limit_words_readme);
+            int readme_scope = checkString(readme, limit_words_readme);
+            int desc_scope = checkString(desc, limit_words_desc);
+            string comments = string.Empty;
+            if (readme_scope == 0)
+                comments += "Добавить README \n";
+            if (desc_scope == 0)
+                comments += "Добавить краткое описание проекта";
+            return (readme_scope + desc_scope, comments);
         }
         private int checkString(string value, int limitaion)
         {

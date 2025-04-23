@@ -11,6 +11,8 @@
 
         public string updated_at { get; }
 
+        public string comments { get; set; }
+
         public string zip_path { get; }
         public string dir_path { get; set; }
 

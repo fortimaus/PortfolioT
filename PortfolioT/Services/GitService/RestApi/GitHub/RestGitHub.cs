@@ -65,23 +65,20 @@ namespace PortfolioT.Services.GitService.RestApi.GitHub
         public async Task<List<GitHubRepository>> getManyReposAsync(string userLogin)
         {            
             List<GitHubRepository> repos = await getRepos(userLogin);
-            Stopwatch stopwatch = new Stopwatch();
-            Console.WriteLine("Repo \t\t\t commits \t\t\t time");
+            
+            
 
             List<GitHubRepository> resultRepos = new List<GitHubRepository>();
             int pages = (int)Math.Ceiling((float)repos.Count / bathRepository);
 
             for (int i = 0; i < pages; i++)
             {
-                stopwatch.Reset();
-                stopwatch.Start();
+
                 var tasks = repos
                     .Skip(i * bathRepository).Take(bathRepository)
                     .Select(x => getOneRepoAsync(userLogin, x.name));
 
                 resultRepos.AddRange(await Task.WhenAll(tasks));
-                stopwatch.Stop();
-                Console.WriteLine($"{stopwatch.ElapsedMilliseconds / 1000} sec");
             }
 
             return resultRepos;
@@ -97,6 +94,9 @@ namespace PortfolioT.Services.GitService.RestApi.GitHub
         }
         public async Task<GitHubRepository> getOneRepoAsync(string userLogin, string repoName)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            
             using var request = new HttpRequestMessage(HttpMethod.Get, $"{API}/repos/{userLogin}/{repoName}");
             
             
@@ -154,6 +154,9 @@ namespace PortfolioT.Services.GitService.RestApi.GitHub
             repo.zip_path = await zip_path;
             if (repo.fork)
                 repo.pullRequests = await getPRs(userLogin, repo.name);
+
+            stopwatch.Stop();
+            Console.WriteLine($"{repoName}\t{repo.commits.Count}\t{stopwatch.ElapsedMilliseconds / 1000} sec");
 
             return repo;
         }

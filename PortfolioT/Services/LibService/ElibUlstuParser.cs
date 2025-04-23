@@ -33,7 +33,7 @@ namespace PortfolioT.Services.LibService
             string ASP_Cockie = responseCockie.Headers.GetValues("Set-Cookie")
                 .Single(x => x.Contains("ASP.NET_SessionId"))
                 .Split(' ').Single(x => x.Contains("ASP.NET_SessionId"));
-
+            //Console.WriteLine("Get Token");
             Dictionary<string, string> dataDb = new Dictionary<string, string>()
             {
                 ["DbList"] = "7"
@@ -86,12 +86,13 @@ namespace PortfolioT.Services.LibService
                 pageNums.RemoveAt(pageNums.Count-1);
                 foreach (var item in pageNums)
                 {
-                    Console.WriteLine(item);
+                    //Console.WriteLine(item);
                 }
                 int pages = (int)Math.Ceiling((float)pageNums.Count / bath_pages);
                 List<HtmlDocument> docs = new List<HtmlDocument>() { doc };
                 for (int i = 0; i < pages; i++)
                 {
+                    //Console.WriteLine($"Get page {i}");
                     var tasks = pageNums
                         .Skip(i * bath_pages)
                         .Take(bath_pages).Select(x => getHtmlFromPage(x, ASP_Cockie));
@@ -130,9 +131,13 @@ namespace PortfolioT.Services.LibService
                 return articles;
             foreach(HtmlNode node in nodes)
             {
+                
                 Article article = new Article();
                 (string, string) titleDesc = getTitleAndDesc(node);
                 article.title = titleDesc.Item1;
+
+                //Console.WriteLine($"Get article {titleDesc.Item1}");
+
                 article.desc = titleDesc.Item2;
                 article.authors = getAuthors(node);
                 article.words = getWords(node);

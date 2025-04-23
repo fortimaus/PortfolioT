@@ -15,6 +15,7 @@ namespace PortfolioT.Services.GitService.RestApi.Gitea.Models
         public string full_name { get; set; } = string.Empty;
         public string description { get; set; } = string.Empty;
 
+        public string comments { get; set; } = string.Empty;
         public string readme { get; set; } = string.Empty;
 
         public bool teamwork { get; set; } = false;

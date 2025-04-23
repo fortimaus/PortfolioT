@@ -12,8 +12,8 @@ namespace PortfolioT.Services.LibService
         }
         public async Task<List<Article>> GetUserWorks(List<ServiceData> datas)
         {
-
-            return await UlstuParser.getArticles("Романов", "2020", "2025");
+            string[] lines = datas[0].data.Split('-');
+            return await UlstuParser.getArticles(lines[0], lines[1], lines[2]);
         }
     }
 }

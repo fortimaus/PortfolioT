@@ -11,5 +11,7 @@
         public string desc { get; set; } = string.Empty;
 
         public string words { get; set; } = string.Empty;
+
+        public int scope { get; set; } = 100;
     }
 }

@@ -16,6 +16,7 @@ namespace PortfolioT.Services.GitService.RestApi.GitHub.Models
 
         public string full_name { get; set; } = string.Empty;
 
+        public string comments { get; set; } = string.Empty;
         public bool teamwork { get; set; } = false;
 
         public string updated_at { get; set; } = string.Empty;
