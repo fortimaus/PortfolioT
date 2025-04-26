@@ -6,13 +6,13 @@ using PortfolioT.DataContracts.ViewModels;
 
 namespace PortfolioT.Controllers
 {
-    [Route("api/articles")]
+    [Route("api/reposotories")]
     [ApiController]
-    public class ArticleController : ControllerBase
+    public class RepoController : ControllerBase
     {
-        ArticleStorage articleStorage = new ArticleStorage();
+        RepoStorage repoStorage = new RepoStorage();
         [HttpPost("create")]
-        public async void Post(ArticleBindingModel model)
+        public async void Post(RepoBindingModel model)
         {
             testImage test = new testImage();
             byte[] prev = await test.preview();
@@ -22,24 +22,24 @@ namespace PortfolioT.Controllers
             model.images = new List<(long, byte[])>();
             model.images.Add((-1, im1));
             model.images.Add((-1, im2));
-            await articleStorage.Create(model);
+            await repoStorage.Create(model);
         }
         [HttpGet("{id}")]
-        public async Task<ArticleViewModel?> Get(long id)
+        public async Task<RepoViewModel?> Get(long id)
         {
 
-            return await articleStorage.Get(id);
+            return await repoStorage.Get(id);
         }
 
         [HttpGet("user/{id}")]
-        public async Task<List<ArticleViewModel>?> GetUsers(long id)
+        public async Task<List<RepoViewModel>?> GetUsers(long id)
         {
 
-            return await articleStorage.GetList(id);
+            return await repoStorage.GetList(id);
         }
 
         [HttpPut("update")]
-        public async Task<bool?> Put(ArticleBindingModel model)
+        public async Task<bool?> Put(RepoBindingModel model)
         {
 
             testImage test = new testImage();
@@ -49,13 +49,13 @@ namespace PortfolioT.Controllers
             model.preview = im2;
             model.images = new List<(long, byte[])>();
             model.images.Add((-1, im1));
-            return await articleStorage.Update(model);
+            return await repoStorage.Update(model);
         }
 
         [HttpDelete("delete/{id}")]
         public void Delete(long id)
         {
-            articleStorage.Delete(id);
+            repoStorage.Delete(id);
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿using PortfolioT.DataModels.Models;
+﻿using PortfolioT.DataContracts.ViewModels;
+using PortfolioT.DataModels.Models;
 using System.ComponentModel.DataAnnotations;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PortfolioT.DataBase.Models
 {
@@ -11,5 +13,14 @@ namespace PortfolioT.DataBase.Models
         public long Id { get; set; }
 
         public virtual List<UserService> userServices { get; set; } = new();
+
+        public ServiceViewModel GetViewModel()
+        {
+            return new ServiceViewModel
+            {
+                title = title,
+                
+            };
+        }
     }
 }

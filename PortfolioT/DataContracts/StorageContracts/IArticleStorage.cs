@@ -9,6 +9,6 @@ namespace PortfolioT.DataContracts.StorageContracts
         ArticleViewModel Get(long id);
         bool Create(ArticleBindingModel model);
         bool Update(ArticleBindingModel model);
-        bool Delete(ArticleBindingModel model);
+        bool Delete(long id);
     }
 }

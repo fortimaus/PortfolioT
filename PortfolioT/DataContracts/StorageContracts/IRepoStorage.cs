@@ -9,6 +9,6 @@ namespace PortfolioT.DataContracts.StorageContracts
         RepoViewModel Get(long id);
         bool Create(RepoBindingModel model);
         bool Update(RepoBindingModel model);
-        bool Delete(RepoBindingModel model);
+        bool Delete(long id);
     }
 }

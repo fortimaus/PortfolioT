@@ -8,10 +8,13 @@ namespace PortfolioT.DataContracts.BindingModels
 
         public string description { get; set; } = string.Empty;
 
+        public long userId { get; set; }
+
         public string? link { get; set; } = string.Empty;
 
-        public string? preview { get; set; } = string.Empty;
+        public byte[]? preview { get; set; }
 
+        public List<(long, byte[])>? images { get; set; } = new();
 
         public long Id { get; set; }
     }

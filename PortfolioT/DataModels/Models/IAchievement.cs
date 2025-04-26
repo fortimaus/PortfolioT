@@ -5,6 +5,5 @@
         string title { get; }
         string description { get; }
         string? link { get; }
-        string? preview { get; }
     }
 }

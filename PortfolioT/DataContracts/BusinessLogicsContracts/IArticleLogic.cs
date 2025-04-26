@@ -3,12 +3,12 @@ using PortfolioT.DataContracts.ViewModels;
 
 namespace PortfolioT.DataContracts.BusinessLogicsContracts
 {
-    public interface IArticleStorage
+    public interface IArticleLogic
     {
-        List<ArticleViewModel> GetList();
-        ArticleViewModel Get(long id);
-        bool Create(ArticleBindingModel model);
-        bool Update(ArticleBindingModel model);
-        bool Delete(ArticleBindingModel model);
+        Task<List<ArticleViewModel>> GetList(long id);
+        Task<ArticleViewModel> Get(long id);
+        Task<bool> Create(ArticleBindingModel model);
+        Task<bool> Update(ArticleBindingModel model);
+        bool Delete(long id);
     }
 }

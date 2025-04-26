@@ -14,7 +14,7 @@ namespace PortfolioT.DataContracts.ViewModels
 
         public string? about { get; set; } = string.Empty;
 
-        public string? preview { get; set; } = string.Empty;
+        public byte[]? preview { get; set; }
 
         public UserRole role { get; set; } = UserRole.None;
 

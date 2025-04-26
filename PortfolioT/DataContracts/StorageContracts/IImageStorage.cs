@@ -9,6 +9,6 @@ namespace PortfolioT.DataContracts.StorageContracts
         ImageViewModel Get(long id);
         bool Create(ImageBindingModel model);
         bool Update(ImageBindingModel model);
-        bool Delete(ImageBindingModel model);
+        bool Delete(long id);
     }
 }

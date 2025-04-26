@@ -1,4 +1,5 @@
-﻿using PortfolioT.DataModels.Models;
+﻿using PortfolioT.DataContracts.ViewModels;
+using PortfolioT.DataModels.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +18,16 @@ namespace PortfolioT.DataBase.Models
         public virtual User user { get; set; } = new();
 
         public virtual Service service { get; set; } = new();
-        
+
+        public  UserServiceViewModel GetViewModel()
+        {
+            return new UserServiceViewModel
+            {
+                userId = userId,
+                serviceId = serviceId,
+                serviceName = service.title,
+                data = data
+            };
+        }
     }
 }

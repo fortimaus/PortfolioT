@@ -5,11 +5,11 @@ namespace PortfolioT.DataContracts.BusinessLogicsContracts
 {
     public interface IUserLogic
     {
-        List<UserViewModel> GetList();
-        List<UserViewModel> FindByLogin(string search);
-        UserViewModel Get(long id);
+        Task<List<UserViewModel>> GetList();
+        Task<List<UserViewModel>> FindByLogin(string search);
+        Task<UserViewModel> Get(long id);
         bool Create(UserBindingModel model);
-        bool Update(UserBindingModel model);
-        bool Delete(UserBindingModel model);
+        Task<bool> Update(UserBindingModel model);
+        bool Delete(long id);
     }
 }

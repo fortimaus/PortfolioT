@@ -1,4 +1,5 @@
-﻿using PortfolioT.DataModels.Enums;
+﻿using PortfolioT.DataContracts.ViewModels;
+using PortfolioT.DataModels.Enums;
 using PortfolioT.DataModels.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,6 +27,22 @@ namespace PortfolioT.DataBase.Models
         public virtual List<UserService> services { get; set; } = new();
         public virtual List<Achievement> achievements { get; set; } = new();
 
-
+        public async Task<UserViewModel> GetViewModel()
+        {
+            byte[]? preview_data = null;
+            if (preview != null)
+                preview_data = await File.ReadAllBytesAsync(preview);
+            return new UserViewModel
+            {
+                Id = Id,
+                login = login,
+                password = password,
+                email = email,
+                about = about,
+                role = role,
+                status = status,
+                preview = preview_data
+            };
+        }
     }
 }

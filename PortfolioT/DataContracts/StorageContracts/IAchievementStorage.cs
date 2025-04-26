@@ -5,10 +5,10 @@ namespace PortfolioT.DataContracts.StorageContracts
 {
     public interface IAchievementStorage
     {
-        List<AchievementViewModel> GetList();
-        AchievementViewModel Get(long id);
-        bool Create(AchievementBindingModel model);
-        bool Update(AchievementBindingModel model);
-        bool Delete(AchievementBindingModel model);
+        Task<List<AchievementViewModel>> GetList(long id);
+        Task<AchievementViewModel> Get(long id);
+        Task<bool> Create(AchievementBindingModel model);
+        Task<bool> Update(AchievementBindingModel model);
+        bool Delete(long id);
     }
 }

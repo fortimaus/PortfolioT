@@ -12,9 +12,9 @@ namespace PortfolioT.DataContracts.ViewModels
 
         public string? link { get; set; } = string.Empty;
 
-        public string? preview { get; set; } = string.Empty;
+        public byte[]? preview { get; set; }
 
-        public List<IImage> images { get; set; } = new();
+        public Dictionary<long, byte[]>? images { get; set; } = new();
 
         public long Id { get; set; }
     }
