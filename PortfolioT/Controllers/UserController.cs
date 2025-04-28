@@ -16,6 +16,7 @@ namespace PortfolioT.Controllers
     public class UserController : ControllerBase
     {
         UserLogic userLogic = new UserLogic();
+        UserCommentLogic commentLogic = new UserCommentLogic();
         
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserBindingModel model)
@@ -169,6 +170,52 @@ namespace PortfolioT.Controllers
                 return BadRequest(ex.Message);
             }
             
+        }
+        [HttpPost("comments")]
+        public IActionResult CreateComment(UserCommentBindingModel model)
+        {
+            try
+            {
+                return Ok(commentLogic.Create(model));
+            }
+            catch (BusyUserException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [HttpGet("comments/{id}")]
+        public IActionResult Login(long id)
+        {
+            try
+            {
+                return Ok(commentLogic.UserComments(id));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

@@ -23,7 +23,6 @@ namespace PortfolioT.DataBase.Storage
                 user = user,
                 moderator = moderator,
                 text = model.text,
-                date = DateTime.Now,
             };
             context.UserComments.Add(newElement);
             context.SaveChanges();

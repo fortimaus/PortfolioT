@@ -57,7 +57,7 @@ namespace PortfolioT.DataBase.Storage
         {
             using var context = new DataBaseConnection();
             User? user = context.Users.FirstOrDefault(x => x.login.Equals(login));
-            if (user == null)
+            if (user != null)
                 throw new BusyUserException("Пользователь с заданным логином уже существует");
             return true;
         }
@@ -66,7 +66,7 @@ namespace PortfolioT.DataBase.Storage
         {
             using var context = new DataBaseConnection();
             User? user = context.Users.FirstOrDefault(x => x.email.Equals(email));
-            if (user == null)
+            if (user != null)
                 throw new BusyUserException("Пользователь с заданной почтой уже существует");
             return true;
         }

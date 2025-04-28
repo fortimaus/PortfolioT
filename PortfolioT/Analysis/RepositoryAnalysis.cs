@@ -129,7 +129,7 @@ namespace PortfolioT.Analysis
                     DateTime.ParseExact(dict_repos[result.id].updated_at.Split('T')[0], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture),
                     dict_repos[result.id].comments + result.comments));
             }
-
+            
             foreach(var repo in dict_repos.Values)
             {
                 deleteZip(repo.zip_path);
@@ -137,13 +137,13 @@ namespace PortfolioT.Analysis
             }
 
             pages = (int)Math.Ceiling((float)response.Count / bath_remove);
-            //for (i = 0; i < pages; i++)
-            //{
-            //    var tasks = response
-            //        .Skip(i * bath_remove)
-            //        .Take(bath_remove).Select(x => sonar.deleteProjects(x.title));
-            //    await Task.WhenAll(tasks);
-            //}
+            for (i = 0; i < pages; i++)
+            {
+                var tasks = response
+                    .Skip(i * bath_remove)
+                    .Take(bath_remove).Select(x => sonar.deleteProjects(x.title));
+                await Task.WhenAll(tasks);
+            }
             return response;
         }
 

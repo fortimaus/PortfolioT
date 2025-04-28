@@ -17,7 +17,7 @@ namespace PortfolioT.DataBase.Models
         [ForeignKey("userId")]
         public long userId { get; set; }
 
-        public DateTime date { get; set; }
+        public DateTime date { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
 
         public virtual User moderator { get; set; } = new();
 
