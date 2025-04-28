@@ -1,6 +1,7 @@
 ﻿using PortfolioT.DataBase.Models;
 using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.BusinessLogicsContracts;
+using PortfolioT.DataContracts.StorageContracts;
 using System.IO;
 using System.Xml.Linq;
 
@@ -17,7 +18,7 @@ namespace PortfolioT.DataBase.Storage
             Achievement achievement = context.Achievements.First(x => x.Id == id);
 
             if (achievement == null)
-                return false;
+                throw new NullReferenceException("Не найдено достижение с заданным id");
 
             foreach (var image in images)
             {

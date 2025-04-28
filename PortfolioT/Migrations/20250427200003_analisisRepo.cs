@@ -5,7 +5,7 @@
 namespace PortfolioT.Migrations
 {
     /// <inheritdoc />
-    public partial class update_25_04_25 : Migration
+    public partial class analisisRepo : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

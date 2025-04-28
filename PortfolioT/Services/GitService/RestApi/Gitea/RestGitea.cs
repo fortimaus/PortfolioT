@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PortfolioT.DataBase;
 using PortfolioT.Services.GitService.RestApi.Gitea.Models;
 using PortfolioT.Services.GitService.RestApi.GitHub.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -18,10 +20,10 @@ namespace PortfolioT.Services.GitService.RestApi.Gitea
     {
         private int bathRepository = 3;
 
-        private string name = "GitUlstu";
+        private string name = InitServices.GitUlstu.title;
         private string path_zip = @"C:\test_zips";
         private string API = "https://git.is.ulstu.ru/api/v1";
-        private string URL = "https://git.is.ulstu.ru/";
+        public static string URL = "https://git.is.ulstu.ru/";
         public string Name
         {
             get => name;
@@ -37,8 +39,6 @@ namespace PortfolioT.Services.GitService.RestApi.Gitea
         }
         public async Task<bool> CheckUser(string userLogin)
         {
-            if (!Regex.IsMatch(userLogin, Pattern, RegexOptions.IgnoreCase))
-                return false;
             using var request = new HttpRequestMessage(HttpMethod.Get, $"{API}/users/{userLogin}");
             using var response = await httpClient.SendAsync(request);
             return response.StatusCode.Equals(HttpStatusCode.OK);
@@ -54,6 +54,15 @@ namespace PortfolioT.Services.GitService.RestApi.Gitea
             }
         }
 
+        public async Task<List<GiteaRepository>> getReposInfo(string userLogin)
+        {
+            var response = await httpClient.GetAsync($"{API}/users/{userLogin}/repos");
+
+            string str = await response.Content.ReadAsStringAsync();
+            List<GiteaRepository>? repos = JsonSerializer.Deserialize<List<GiteaRepository>>(str).Where(x => !x.empty).ToList();
+
+            return repos;
+        }
         public async Task<List<GiteaRepository>> getManyReposAsync(string userLogin)
         {
             
@@ -133,7 +142,11 @@ namespace PortfolioT.Services.GitService.RestApi.Gitea
 
             using var response = await httpClient.SendAsync(request);
             byte[] fileContent = await response.Content.ReadAsByteArrayAsync();
-            string path = @$"{path_zip}\{Name}\{userLogin}\{repoName}.zip";
+            
+            Random random = new Random();
+            string uuid = $"{random.Next(0,10)}{random.Next(0, 10)}{random.Next(0, 10)}{random.Next(0, 10)}";
+            
+            string path = @$"{path_zip}\{Name}\{userLogin}\{repoName}{uuid}.zip";
             await File.WriteAllBytesAsync(path, fileContent);
             return path;
         }

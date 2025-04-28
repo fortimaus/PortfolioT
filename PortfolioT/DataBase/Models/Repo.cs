@@ -23,6 +23,10 @@ namespace PortfolioT.DataBase.Models
         [Required]
         public float scope_reability { get; set; } = -1;
 
+        public DateOnly? date { get; set; }
+
+        public string? comments { get; set; } = string.Empty;
+
         new public async Task<RepoViewModel> GetViewModel()
         {
             byte[]? preview_data = null;

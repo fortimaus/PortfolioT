@@ -17,5 +17,7 @@ namespace PortfolioT.DataContracts.BindingModels
         public List<(long, byte[])>? images { get; set; } = new();
 
         public long Id { get; set; }
+
+        public long serviceId { get; set; }
     }
 }

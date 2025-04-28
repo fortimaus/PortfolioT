@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using PortfolioT.DataBase;
 using PortfolioT.Services.GitService.Models;
+using PortfolioT.Services.GitService.RestApi.Gitea.Models;
 using PortfolioT.Services.GitService.RestApi.GitHub.Models;
 using PortfolioT.Services.GitService.RestApi.GitHub.Models.Support;
 using System;
@@ -20,10 +22,10 @@ namespace PortfolioT.Services.GitService.RestApi.GitHub
         private int bathCommits = 15;
         private int bathRepository = 3;
 
-        private string name = "GitHub";
+        private string name = InitServices.GitHub.title;
         private string path_zip = @"C:\test_zips";
-        private string API = "https://api.github.com";
-        private string URL = "https://github.com/";
+        public  string API = "https://api.github.com";
+        public static string URL = "https://github.com/";
         public string Name
         {
             get => name;
@@ -37,11 +39,10 @@ namespace PortfolioT.Services.GitService.RestApi.GitHub
         public RestGitHub()
         {
             httpClient = new HttpClient();
+            httpClient.Timeout = Timeout.InfiniteTimeSpan;
         }
         public async Task<bool> CheckUser(string userLogin)
         {
-            if (!Regex.IsMatch(userLogin, Pattern, RegexOptions.IgnoreCase))
-                return false;
             using var request = new HttpRequestMessage(HttpMethod.Get, $"{API}/users/{userLogin}");
             
             foreach ((string, string) head in getHeaders())
@@ -62,6 +63,10 @@ namespace PortfolioT.Services.GitService.RestApi.GitHub
             return headers;
         }
 
+        public async Task<List<GitHubRepository>> getReposInfo(string userLogin)
+        {
+            return await getRepos(userLogin);
+        }
         public async Task<List<GitHubRepository>> getManyReposAsync(string userLogin)
         {            
             List<GitHubRepository> repos = await getRepos(userLogin);

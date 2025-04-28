@@ -1,4 +1,5 @@
-﻿using PortfolioT.DataModels.Models;
+﻿using PortfolioT.DataModels.Enums;
+using PortfolioT.DataModels.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PortfolioT.DataContracts.ViewModels
@@ -9,5 +10,7 @@ namespace PortfolioT.DataContracts.ViewModels
         public long serviceId { get; set; }
         public string serviceName { get; set; } = string.Empty;
         public string data { get; set; } = string.Empty;
+
+        public TypeService type { get; set; } = TypeService.None;
     }
 }

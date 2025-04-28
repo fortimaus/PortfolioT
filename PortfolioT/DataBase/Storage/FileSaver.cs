@@ -6,7 +6,7 @@ namespace PortfolioT.DataBase.Storage
 {
     public class FileSaver
     {
-        private readonly string PATH = @"C:\test_zips";
+        private readonly string PATH = @"C:\test_images";
         public string prepareDictionary(string name, long userId)
         {
             string path = @$"{PATH}\{name}\{userId}";

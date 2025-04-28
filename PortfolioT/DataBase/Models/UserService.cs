@@ -26,7 +26,8 @@ namespace PortfolioT.DataBase.Models
                 userId = userId,
                 serviceId = serviceId,
                 serviceName = service.title,
-                data = data
+                data = data,
+                type = service.type
             };
         }
     }

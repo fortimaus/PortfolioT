@@ -25,6 +25,12 @@ namespace PortfolioT.DataBase.Models
         public UserStatus status { get; set; } = UserStatus.None;
 
         public virtual List<UserService> services { get; set; } = new();
+
+        [InverseProperty("moderator")]
+        public virtual List<UserComment> moderatorComments { get; set; } = new();
+
+        [InverseProperty("user")]
+        public virtual List<UserComment> userComments { get; set; } = new();
         public virtual List<Achievement> achievements { get; set; } = new();
 
         public async Task<UserViewModel> GetViewModel()

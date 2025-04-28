@@ -66,7 +66,6 @@ namespace PortfolioT.Analysis
                     if(i == 3)
                     {
                         analisys.comments = "Ошибка при проведении анализа";
-                        analisys.scope_cof = 0;
                         return analisys;
                     }
                         
@@ -97,8 +96,22 @@ namespace PortfolioT.Analysis
                     checkNloc = true;
                 else
                 {
+                    float scope_metric = float.Parse(measure.value.Replace('.', ','));
+                    switch (measure.metric)
+                    {
+                        case "software_quality_reliability_rating":
+                            analisys.scope_reability = scope_metric;
+                            break;
+                        case "software_quality_maintainability_rating":
+                            analisys.scope_maintability = scope_metric;
+                            break;
+                        case "software_quality_security_rating":
+                            analisys.scope_security = scope_metric;
+                            break;
+
+                    }
                     scope += float.Parse(measure.value.Replace('.', ','));
-                    comments.Add(measureMean(measure.metric, float.Parse(measure.value.Replace('.', ',')))) ;
+                    comments.Add(measureMean(measure.metric, float.Parse(measure.value.Replace('.', ','))));
                 }
                 
 

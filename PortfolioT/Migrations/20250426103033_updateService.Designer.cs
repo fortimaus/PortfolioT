@@ -11,8 +11,8 @@ using PortfolioT.DataBase;
 namespace PortfolioT.Migrations
 {
     [DbContext(typeof(DataBaseConnection))]
-    [Migration("20250423153411_init")]
-    partial class init
+    [Migration("20250426103033_updateService")]
+    partial class updateService
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,9 @@ namespace PortfolioT.Migrations
                     b.Property<string>("preview")
                         .HasColumnType("text");
 
+                    b.Property<long?>("serviceId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -50,6 +53,8 @@ namespace PortfolioT.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("serviceId");
 
                     b.HasIndex("userId");
 
@@ -92,6 +97,9 @@ namespace PortfolioT.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("type")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Services");
@@ -100,17 +108,20 @@ namespace PortfolioT.Migrations
                         new
                         {
                             Id = 1L,
-                            title = "GitHub"
+                            title = "GitHub",
+                            type = 1
                         },
                         new
                         {
                             Id = 2L,
-                            title = "GitUlstu"
+                            title = "GitUlstu",
+                            type = 1
                         },
                         new
                         {
                             Id = 3L,
-                            title = "ElibUlsu"
+                            title = "ElibUlstu",
+                            type = 2
                         });
                 });
 
@@ -210,11 +221,17 @@ namespace PortfolioT.Migrations
 
             modelBuilder.Entity("PortfolioT.DataBase.Models.Achievement", b =>
                 {
+                    b.HasOne("PortfolioT.DataBase.Models.Service", "service")
+                        .WithMany()
+                        .HasForeignKey("serviceId");
+
                     b.HasOne("PortfolioT.DataBase.Models.User", "user")
                         .WithMany("achievements")
                         .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("service");
 
                     b.Navigation("user");
                 });

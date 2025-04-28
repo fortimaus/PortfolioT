@@ -28,8 +28,13 @@ namespace PortfolioT.DataContracts.BindingModels
 
         public byte[]? preview { get; set; }
 
+        public string comments { get; set; } = string.Empty;
+        public string date { get; set; } = string.Empty;
+
         public List<(long, byte[])>? images { get; set; } = new();
 
         public long Id { get; set; }
+
+        public long serviceId { get; set; }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PortfolioT.BusinessLogic.Exceptions;
+using PortfolioT.BusinessLogic.Logics;
 using PortfolioT.DataBase.Storage;
 using PortfolioT.DataContracts.BindingModels;
+using PortfolioT.DataContracts.BusinessLogicsContracts;
 using PortfolioT.DataContracts.ViewModels;
 
 namespace PortfolioT.Controllers
@@ -10,52 +13,170 @@ namespace PortfolioT.Controllers
     [ApiController]
     public class ArticleController : ControllerBase
     {
-        ArticleStorage articleStorage = new ArticleStorage();
+        ArticleLogic articleLogic = new ArticleLogic();
         [HttpPost("create")]
-        public async void Post(ArticleBindingModel model)
+        public async Task<IActionResult> Post(ArticleBindingModel model)
         {
-            testImage test = new testImage();
-            byte[] prev = await test.preview();
-            byte[] im1 = await test.image1();
-            byte[] im2 = await test.image2();
-            model.preview = prev;
-            model.images = new List<(long, byte[])>();
-            model.images.Add((-1, im1));
-            model.images.Add((-1, im2));
-            await articleStorage.Create(model);
+            try
+            {
+                testImage test = new testImage();
+                byte[] prev = await test.preview();
+                byte[] im1 = await test.image1();
+                byte[] im2 = await test.image2();
+                model.preview = prev;
+                model.images = new List<(long, byte[])>();
+                model.images.Add((-1, im1));
+                model.images.Add((-1, im2));
+                return Ok(await articleLogic.Create(model));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
+        // GET api/<ArticleController>/5
         [HttpGet("{id}")]
-        public async Task<ArticleViewModel?> Get(long id)
+        public async Task<IActionResult?> Get(long id)
         {
+            try
+            {
+                return Ok(await articleLogic.Get(id));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-            return await articleStorage.Get(id);
+        }
+        [HttpPost("generate")]
+        public async Task<IActionResult> Generate(long id)
+        {
+            try
+            {
+                return Ok(await articleLogic.generateUserAllArticle(id));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
+        [HttpPost("generate_service")]
+        public async Task<IActionResult> GenerateByService(long userId, long serviceId)
+        {
+            try
+            {
+                return Ok(await articleLogic.generateUserArticleByService(userId,serviceId));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("user/{id}")]
-        public async Task<List<ArticleViewModel>?> GetUsers(long id)
+        public async Task<IActionResult> GetUsers(long id)
         {
+            try
+            {
+                return Ok(await articleLogic.GetList(id));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-            return await articleStorage.GetList(id);
         }
 
+        // PUT api/<ArticleController>/5
         [HttpPut("update")]
-        public async Task<bool?> Put(ArticleBindingModel model)
+        public async Task<IActionResult> Put(ArticleBindingModel model)
         {
-
-            testImage test = new testImage();
-            byte[] prev = await test.preview();
-            byte[] im1 = await test.image1();
-            byte[] im2 = await test.image2();
-            model.preview = im2;
-            model.images = new List<(long, byte[])>();
-            model.images.Add((-1, im1));
-            return await articleStorage.Update(model);
+            try
+            {
+                testImage test = new testImage();
+                byte[] prev = await test.preview();
+                byte[] im1 = await test.image1();
+                byte[] im2 = await test.image2();
+                model.preview = im2;
+                model.images = new List<(long, byte[])>();
+                model.images.Add((-1, im1));
+                return Ok(await articleLogic.Update(model));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
+        // DELETE api/<ArticleController>/5
         [HttpDelete("delete/{id}")]
-        public void Delete(long id)
+        public IActionResult Delete(long id)
         {
-            articleStorage.Delete(id);
+            try
+            {
+                return Ok(articleLogic.Delete(id));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

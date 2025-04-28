@@ -1,14 +1,13 @@
-﻿using PortfolioT.DataContracts.BindingModels;
+﻿using PortfolioT.DataBase;
+using PortfolioT.DataBase.Models;
+using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.ViewModels;
 
 namespace PortfolioT.DataContracts.StorageContracts
 {
     public interface IImageStorage
     {
-        List<ImageViewModel> GetList();
-        ImageViewModel Get(long id);
-        bool Create(ImageBindingModel model);
-        bool Update(ImageBindingModel model);
-        bool Delete(long id);
+        Task<bool> Create(DataBaseConnection context, List<byte[]> images, string path, string name, long id);
+        bool Delete(DataBaseConnection context, List<Image> images);
     }
 }

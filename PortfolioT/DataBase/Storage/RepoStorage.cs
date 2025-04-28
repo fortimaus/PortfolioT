@@ -2,6 +2,7 @@
 using PortfolioT.DataBase.Models;
 using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.BusinessLogicsContracts;
+using PortfolioT.DataContracts.StorageContracts;
 using PortfolioT.DataContracts.ViewModels;
 
 namespace PortfolioT.DataBase.Storage
@@ -19,9 +20,10 @@ namespace PortfolioT.DataBase.Storage
         public async Task<bool> Create(RepoBindingModel model)
         {
             using var context = new DataBaseConnection();
-            User? user = context.Users.First(x => x.Id == model.userId);
+            User? user = context.Users.FirstOrDefault(x => x.Id == model.userId);
+            Service? service = context.Services.FirstOrDefault(x => x.Id == model.serviceId);
             if (user == null)
-                return false;
+                throw new NullReferenceException("Не найден пользователь с заданным id");
             Repo newElement = new Repo()
             {
                 title = model.title,
@@ -34,8 +36,10 @@ namespace PortfolioT.DataBase.Storage
                 scope_team = model.scope_team,
                 scope_maintability = model.scope_maintability,
                 scope_reability = model.scope_reability,
-                scope_security = model.scope_security
-
+                scope_security = model.scope_security,
+                comments = model.comments,
+                date = DateOnly.Parse(model.date),
+                service = service
             };
 
             string path = fileSaver.prepareDictionary(NAME, user.Id);
@@ -57,6 +61,41 @@ namespace PortfolioT.DataBase.Storage
             return true;
         }
 
+        public void DeleteAll(long id)
+        {
+            using var context = new DataBaseConnection();
+            var elements = context.Repos
+                .Include(x => x.images)
+                .Where(rec => rec.userId == id);
+            foreach (var element in elements)
+            {
+                if (element.preview != null)
+                    File.Delete(element.preview);
+                if (element.images.Count > 0)
+                    imageStorage.Delete(context, element.images);
+            }
+
+            context.Repos.RemoveRange(elements);
+            context.SaveChanges();
+        }
+        public void DeleteByService(long userId, long serviceId)
+        {
+            using var context = new DataBaseConnection();
+            var elements = context.Repos
+                .Include(x => x.images)
+                .Where(rec => rec.userId == userId && rec.serviceId == serviceId);
+
+            foreach (var element in elements)
+            {
+                if (element.preview != null)
+                    File.Delete(element.preview);
+                if (element.images.Count > 0)
+                    imageStorage.Delete(context, element.images);
+            }
+
+            context.Repos.RemoveRange(elements);
+            context.SaveChanges();
+        }
         public bool Delete(long id)
         {
             using var context = new DataBaseConnection();
@@ -74,7 +113,7 @@ namespace PortfolioT.DataBase.Storage
                 context.SaveChanges();
                 return true;
             }
-            return false;
+            throw new NullReferenceException("Не найден репозиторий с заданным id");
         }
         public async Task<bool> Update(RepoBindingModel model)
         {
@@ -88,7 +127,7 @@ namespace PortfolioT.DataBase.Storage
                     .Include(x => x.user)
                     .FirstOrDefault(rec => rec.Id == model.Id);
                 if (element == null)
-                    return false;
+                    throw new NullReferenceException();
 
                 element.title = model.title;
                 element.description = model.description;
@@ -126,10 +165,15 @@ namespace PortfolioT.DataBase.Storage
                 transaction.Commit();
                 return true;
             }
-            catch
+            catch(NullReferenceException ex)
             {
                 transaction.Rollback();
-                return false;
+                throw new NullReferenceException("Не найден репозиторий с заданным id");
+            }
+            catch(Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception("Ошибка обновления репозитория");
             }
 
                 
@@ -147,7 +191,8 @@ namespace PortfolioT.DataBase.Storage
             using var context = new DataBaseConnection();
             List<RepoViewModel> elements = new List<RepoViewModel>();
             foreach (var element in 
-                context.Repos.Include(x => x.images).Where(x => x.userId == id))
+                context.Repos.Include(x => x.images)
+                .Where(x => x.userId == id).OrderByDescending(x => x.date))
             {
                 elements.Add(await element.GetViewModel());
             }

@@ -26,8 +26,14 @@ namespace PortfolioT.DataContracts.ViewModels
 
         public byte[]? preview { get; set; }
 
+        public string date { get; set; } = string.Empty;
+
+        public string comments { get; set; } = string.Empty;
+
         public Dictionary<long, byte[]>? images { get; set; } = new();
 
         public long Id { get; set; }
+
+        public long serviceId { get; set; }
     }
 }

@@ -22,11 +22,16 @@ namespace PortfolioT.DataBase.Models
         [ForeignKey("userId")]
         public long userId { get; set; }
 
+        [ForeignKey("serviceId")]
+        public long? serviceId { get; set; }
+
         public virtual List<Image> images { get; set; } = new();
 
         public virtual User user { get; set; } = new();
 
-        
+        public virtual Service? service { get; set; } = new();
+
+
         public async Task<AchievementViewModel> GetViewModel()
         {
             byte[]? preview_data = null;

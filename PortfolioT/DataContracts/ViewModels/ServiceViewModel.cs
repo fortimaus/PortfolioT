@@ -1,4 +1,5 @@
-﻿using PortfolioT.DataModels.Models;
+﻿using PortfolioT.DataModels.Enums;
+using PortfolioT.DataModels.Models;
 
 namespace PortfolioT.DataContracts.ViewModels
 {
@@ -7,5 +8,6 @@ namespace PortfolioT.DataContracts.ViewModels
         public string title { get; set; } = string.Empty;
 
         public long Id { get; set; }
+        public TypeService type { get; set; } = TypeService.None;
     }
 }

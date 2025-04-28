@@ -8,7 +8,7 @@ namespace PortfolioT.DataContracts.BusinessLogicsContracts
         Task<List<UserViewModel>> GetList();
         Task<List<UserViewModel>> FindByLogin(string search);
         Task<UserViewModel> Get(long id);
-        bool Create(UserBindingModel model);
+        Task<bool> Create(UserBindingModel model);
         Task<bool> Update(UserBindingModel model);
         bool Delete(long id);
     }

@@ -8,5 +8,7 @@ namespace PortfolioT.DataContracts.StorageContracts
         List<UserServiceViewModel> GetUserList(long id);
         bool Create(UserServiceBindingModel model);
         bool Delete(UserServiceBindingModel model);
+
+        bool Update(UserServiceBindingModel model);
     }
 }

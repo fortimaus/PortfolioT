@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PortfolioT.BusinessLogic.Exceptions;
+using PortfolioT.BusinessLogic.Logics;
 using PortfolioT.DataBase.Storage;
 using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.ViewModels;
+using PortfolioT.DataModels.Enums;
 
 namespace PortfolioT.Controllers
 {
@@ -10,29 +13,134 @@ namespace PortfolioT.Controllers
     [ApiController]
     public class ServiceController : ControllerBase
     {
-        UserServiceStorage userServiceStorage = new UserServiceStorage();
-        ServiceStorage serviceStorage = new ServiceStorage();
+        UserServiceLogic userServiceLogic = new UserServiceLogic();
+        ServiceLogic serviceLogic = new ServiceLogic();
+
         [HttpPost("create")]
-        public void Post(UserServiceBindingModel model)
+        public IActionResult Post(UserServiceBindingModel model)
         {
-            userServiceStorage.Create(model);
+            try
+            {
+                return Ok(userServiceLogic.Create(model));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
         [HttpGet("{id}")]
-        public List<UserServiceViewModel>? GetByUsers(long id)
+        public IActionResult GetByUsers(long id)
         {
-            return userServiceStorage.GetUserList(id);
+            try
+            {
+                return Ok(userServiceLogic.GetUserList(id));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
-        public List<ServiceViewModel>? GetList()
+        public IActionResult GetList()
         {
-            return serviceStorage.getList();
+            try
+            {
+                return Ok(serviceLogic.getList());
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpGet("type")]
+        public IActionResult GetByType(TypeService type)
+        {
+            try
+            {
+                return Ok(serviceLogic.getList(type));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("update")]
+        public IActionResult Update(UserServiceBindingModel model)
+        {
+            try
+            {
+                return Ok(userServiceLogic.Update(model));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("delete")]
-        public void Delete(UserServiceBindingModel model)
+        public IActionResult Delete(UserServiceBindingModel model)
         {
-            userServiceStorage.Delete(model);
+            try
+            {
+                return Ok(userServiceLogic.Delete(model));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

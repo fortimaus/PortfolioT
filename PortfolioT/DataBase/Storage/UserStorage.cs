@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PortfolioT.BusinessLogic.Exceptions;
 using PortfolioT.DataBase.Models;
 using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.BusinessLogicsContracts;
@@ -17,7 +18,7 @@ namespace PortfolioT.DataBase.Storage
         {
             fileSaver = new FileSaver();
         }
-        public bool Create(UserBindingModel model)
+        public async Task<bool> Create(UserBindingModel model)
         {
             using var context = new DataBaseConnection();
             User newElement = new User()
@@ -35,7 +36,7 @@ namespace PortfolioT.DataBase.Storage
                 newElement.preview = null;
             else
             {
-                fileSaver.savePreview(path, model.preview);
+                newElement.preview =  await fileSaver.savePreview(path, model.preview);
             }
             var element = context.Users.Add(newElement);
             context.SaveChanges();
@@ -57,7 +58,7 @@ namespace PortfolioT.DataBase.Storage
             using var context = new DataBaseConnection();
             User? user = context.Users.FirstOrDefault(x => x.login.Equals(login));
             if (user == null)
-                return false;
+                throw new BusyUserException("Пользователь с заданным логином уже существует");
             return true;
         }
 
@@ -66,7 +67,7 @@ namespace PortfolioT.DataBase.Storage
             using var context = new DataBaseConnection();
             User? user = context.Users.FirstOrDefault(x => x.email.Equals(email));
             if (user == null)
-                return false;
+                throw new BusyUserException("Пользователь с заданной почтой уже существует");
             return true;
         }
 
@@ -75,7 +76,7 @@ namespace PortfolioT.DataBase.Storage
             using var context = new DataBaseConnection();
             User? user = context.Users.FirstOrDefault(x => x.Id == id);
             if (user == null)
-                return false;
+                throw new NullReferenceException("Пользователь не найден");
             else
             {
                 context.Users.Remove(user);
@@ -123,7 +124,7 @@ namespace PortfolioT.DataBase.Storage
                 var element = context.Users
                 .FirstOrDefault(rec => rec.Id == model.Id);
                 if (element == null)
-                    return false;
+                    throw new NullReferenceException();
                 element.login = model.login;
                 element.password = model.password;
                 element.email = model.email;
@@ -133,7 +134,7 @@ namespace PortfolioT.DataBase.Storage
                 if (model.preview != null)
                 {
                     if (element.preview == null)
-                        fileSaver.savePreview(path, model.preview);
+                        element.preview = await fileSaver.savePreview(path, model.preview);
                     else
                         await File.WriteAllBytesAsync(@$"{element.preview}", model.preview);
                 }
@@ -142,10 +143,15 @@ namespace PortfolioT.DataBase.Storage
                 transaction.Commit();
                 return true;
             }
-            catch
+            catch(NullReferenceException ex)
             {
                 transaction.Rollback();
-                return false;
+                throw new NullReferenceException("Пользователь не найден");
+            }
+            catch(Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception("Ошибка при обновлении пользователя");
             }
                 
         }
@@ -158,18 +164,23 @@ namespace PortfolioT.DataBase.Storage
                 var element = context.Users
                 .FirstOrDefault(rec => rec.Id == userId);
                 if (element == null)
-                    return false;
+                    throw new NullReferenceException();
                 element.role = newRole;
                 context.SaveChanges();
                 transaction.Commit();
                 return true;
             }
-            catch
+            catch (NullReferenceException ex)
             {
                 transaction.Rollback();
-                return false;
+                throw new NullReferenceException("Пользователь не найден");
             }
-                
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception("Ошибка при обновлении пользователя");
+            }
+
         }
         public bool UpdateStatus(long userId, UserStatus newStatus)
         {
@@ -180,18 +191,23 @@ namespace PortfolioT.DataBase.Storage
                 var element = context.Users
                 .FirstOrDefault(rec => rec.Id == userId);
                 if (element == null)
-                    return false;
+                    throw new NullReferenceException();
                 element.status = newStatus;
                 context.SaveChanges();
                 transaction.Commit();
                 return true;
             }
-            catch
+            catch (NullReferenceException ex)
             {
                 transaction.Rollback();
-                return false;
+                throw new NullReferenceException("Пользователь не найден");
             }
-            
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception("Ошибка при обновлении пользователя");
+            }
+
         }
     }
 }

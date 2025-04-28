@@ -3,9 +3,9 @@ using PortfolioT.Services.LibService.Models;
 using System.IO;
 using System.Text;
 
-namespace PortfolioT.Services.LibService
+namespace PortfolioT.Services.LibService.Parsers
 {
-    public class ElibUlstuParser
+    public class ElibUlstuParser : IParser
     {
         private string URL_TOKEN = "https://elib.ulstu.ru/MegaPro/Web/Home";
         private string URL_CHANGE_DB = "https://elib.ulstu.ru/MegaPro/Web/Home/ChangeDb";
@@ -18,9 +18,13 @@ namespace PortfolioT.Services.LibService
         {
             httpClient = new HttpClient();
         }
-        public async Task<List<Article>> getArticles(string name, string date_from, string date_to)
+        public async Task<List<Article>> getArticles(string info)
         {
-            
+            string[] lines = info.Split('-');
+
+            string name = lines[0];
+            string date_from = lines[1];
+            string date_to = lines[2];
 
             using var requestCockie = new HttpRequestMessage(HttpMethod.Post, URL_TOKEN);
 

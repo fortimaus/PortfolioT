@@ -9,5 +9,8 @@
         float scope_security { get; }
         float scope_maintability { get; }
         float scope_reability { get; }
+        string date { get; set; } 
+
+        string comments { get; set; }
     }
 }

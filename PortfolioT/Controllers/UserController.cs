@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PortfolioT.BusinessLogic.Exceptions;
+using PortfolioT.BusinessLogic.Logics;
 using PortfolioT.DataBase.Storage;
 using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.StorageContracts;
 using PortfolioT.DataContracts.ViewModels;
 using PortfolioT.DataModels.Enums;
+using System.Data;
 
 namespace PortfolioT.Controllers
 {
@@ -12,49 +15,160 @@ namespace PortfolioT.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        UserStorage userStorage = new UserStorage();
+        UserLogic userLogic = new UserLogic();
         
         [HttpPost("register")]
-        public async void Register(UserBindingModel model)
+        public async Task<IActionResult> Register(UserBindingModel model)
         {
-            userStorage.Create(model);
+            try
+            {
+                return Ok(await userLogic.Create(model));
+            }
+            catch (BusyUserException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
         [HttpGet("login")]
-        public async Task<UserViewModel> Login(string login, string password)
+        public async Task<IActionResult> Login(string login, string password)
         {
-            return await userStorage.GetByLoginAndPassword(login, password);
+            try
+            {
+                return Ok(await userLogic.FindByLoginAndPassword(login, password));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
         [HttpGet("{id}")]
-        public async Task<UserViewModel?> Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-
-            return await userStorage.Get(id);
+            try
+            {
+                return Ok(await userLogic.Get(id));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
 
         [HttpPut("update")]
-        public async Task<bool?> Put(UserBindingModel model)
+        public async Task<IActionResult> Put(UserBindingModel model)
         {
-            return await userStorage.Update(model);
+            try
+            {
+                return Ok(await userLogic.Update(model));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("role")]
-        public bool UpdateRole(long id, UserRole role)
+        public IActionResult UpdateRole(long id, UserRole role)
         {
-            return userStorage.UpdateRole(id,role);
+            try
+            {
+                return Ok(userLogic.UpdateRole(id, role));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("status")]
-        public bool UpdateStatus(long id, UserStatus status)
+        public IActionResult UpdateStatus(long id, UserStatus status)
         {
-            return userStorage.UpdateStatus(id, status);
+            try
+            {
+                return Ok(userLogic.UpdateStatus(id, status));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("delete/{id}")]
-        public void Delete(long id)
+        public IActionResult Delete(long id)
         {
-            userStorage.Delete(id);
+            try
+            {
+                return Ok(userLogic.Delete(id));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }

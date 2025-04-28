@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PortfolioT.DataContracts.StorageContracts;
 using PortfolioT.DataContracts.ViewModels;
+using PortfolioT.DataModels.Enums;
 
 namespace PortfolioT.DataBase.Storage
 {
@@ -13,6 +14,13 @@ namespace PortfolioT.DataBase.Storage
                 .Select(x => x.GetViewModel()).ToList();
         }
 
-        
+        public List<ServiceViewModel> getList(TypeService type)
+        {
+            using var context = new DataBaseConnection();
+            return context.Services
+                .Where(x => x.type == type)
+                .Select(x => x.GetViewModel()).ToList();
+        }
+
     }
 }

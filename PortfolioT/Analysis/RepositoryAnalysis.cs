@@ -125,6 +125,8 @@ namespace PortfolioT.Analysis
                     dict_repos[result.id].name, dict_repos[result.id].description,
                     dict_repos[result.id].link, dict_repos[result.id].language,
                     dict_repos[result.id].scope_decor, result.scope_cof * points_for_code, dict_repos[result.id].scope_bonus,
+                    result.scope_security, result.scope_maintability, result.scope_reability,
+                    DateTime.ParseExact(dict_repos[result.id].updated_at.Split('T')[0], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture),
                     dict_repos[result.id].comments + result.comments));
             }
 

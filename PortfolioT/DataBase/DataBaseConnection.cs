@@ -15,17 +15,26 @@ namespace PortfolioT.DataBase
         public virtual DbSet<Service> Services { set; get; }
 
         public virtual DbSet<User> Users { set; get; }
+        public virtual DbSet<UserComment> UserComments { set; get; }
 
         public virtual DbSet<UserService> UserServices { set; get; }
+
+        public virtual DbSet<AnalisisUser> AnalisysUsers { set; get; }
+        public virtual DbSet<AnalisysRepo> Analisys { set; get; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserService>().HasKey(us => new { us.userId, us.serviceId });
+            modelBuilder.Entity<AnalisisUser>().HasAlternateKey(us => new { us.name, us.serviceId });
+
+            modelBuilder.Entity<AnalisysRepo>().HasKey(us => new { us.Id });
+            modelBuilder.Entity<AnalisysRepo>().HasAlternateKey(us => new { us.userId, us.title });
 
             modelBuilder.Entity<Service>().HasData(
-                new Service { Id = 1, title = "GitHub" },
-                new Service { Id = 2, title = "GitUlstu" },
-                new Service { Id = 3, title = "ElibUlsu" }
+                InitServices.GitHub,
+                InitServices.GitUlstu,
+                InitServices.ElibUlstu
             );
             modelBuilder.Entity<Repo>().ToTable("Repos");
             modelBuilder.Entity<Article>().ToTable("Articles");

@@ -15,5 +15,7 @@ namespace PortfolioT.DataContracts.ViewModels
         public Dictionary<long, byte[]>? images { get; set; } = new();
 
         public long Id { get; set; }
+
+        public long serviceId { get; set; }
     }
 }
