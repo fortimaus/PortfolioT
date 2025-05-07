@@ -7,6 +7,7 @@ using PortfolioT.DataContracts.StorageContracts;
 using PortfolioT.DataContracts.ViewModels;
 using PortfolioT.DataModels.Enums;
 using PortfolioT.DataModels.Models;
+using System.ComponentModel;
 using System.Xml.Linq;
 
 namespace PortfolioT.DataBase.Storage
@@ -18,7 +19,7 @@ namespace PortfolioT.DataBase.Storage
         {
             fileSaver = new FileSaver();
         }
-        public async Task<bool> Create(UserBindingModel model)
+        public async Task<long> Create(UserBindingModel model)
         {
             using var context = new DataBaseConnection();
             User newElement = new User()
@@ -26,9 +27,10 @@ namespace PortfolioT.DataBase.Storage
                 login = model.login,
                 password = model.password,
                 email = model.email,
-                role = model.role,
+                role = UserRole.Non_Auth,
                 status = model.status,
-                about = model.about
+                about = model.about,
+                code =  model.code
             };
             string path = fileSaver.prepareUsersDict();
 
@@ -38,27 +40,61 @@ namespace PortfolioT.DataBase.Storage
             {
                 newElement.preview =  await fileSaver.savePreview(path, model.preview);
             }
+            DeleteByLoginNonAuth(model.login);
             var element = context.Users.Add(newElement);
             context.SaveChanges();
             
-            return true;
+            return element.Entity.Id;
         }
-
+        private void DeleteByLoginNonAuth(string login)
+        {
+            using var context = new DataBaseConnection();
+            User? user = context.Users
+                .FirstOrDefault(x => x.login.Equals(login) && x.role == UserRole.Non_Auth);
+            if (user != null)
+                Delete(user.Id);
+        }
         public async Task<UserViewModel> GetByLoginAndPassword(string login, string password)
         {
             using var context = new DataBaseConnection();
             User? user = context.Users
-                .FirstOrDefault(x => x.login.Equals(login) && x.password.Equals(password));
+                .FirstOrDefault(x => x.login.Equals(login) && x.password.Equals(password) && x.role != UserRole.Non_Auth);
             if (user == null)
                 throw new NullReferenceException("Пользователь не найден");
             return await user.GetViewModel();
         }
+        public bool CheckByIdAndCode(long id, string code)
+        {
+            using var context = new DataBaseConnection();
+            using var transaction = context.Database.BeginTransaction();
+            try
+            {
+                User? user = context.Users
+                    .FirstOrDefault(x => x.Id == id);
+                if (!user.code.Equals(code))
+                {
+
+                    return false;
+                }
+                user.code = null;
+                context.SaveChanges();
+                transaction.Commit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception("Ошибка");
+            }
+            
+        }
         public bool checkByLogin(string login)
         {
             using var context = new DataBaseConnection();
-            User? user = context.Users.FirstOrDefault(x => x.login.Equals(login));
+            User? user = context.Users
+                .FirstOrDefault(x => x.login.Equals(login) && x.role != UserRole.Non_Auth);
             if (user != null)
-                throw new BusyUserException("Пользователь с заданным логином уже существует");
+                return false;
             return true;
         }
 
@@ -67,7 +103,7 @@ namespace PortfolioT.DataBase.Storage
             using var context = new DataBaseConnection();
             User? user = context.Users.FirstOrDefault(x => x.email.Equals(email));
             if (user != null)
-                throw new BusyUserException("Пользователь с заданной почтой уже существует");
+                return false;
             return true;
         }
 
@@ -90,7 +126,7 @@ namespace PortfolioT.DataBase.Storage
         {
             using var context = new DataBaseConnection();
             List<User> users = context.Users
-                .Where(x => x.login.ToLower().Contains(search.ToLower()))
+                .Where(x => x.login.ToLower().Contains(search.ToLower()) && x.role != UserRole.Non_Auth)
                 .ToList();
             List<UserViewModel> views = new List<UserViewModel>();
             foreach (var user in users)
@@ -108,13 +144,57 @@ namespace PortfolioT.DataBase.Storage
         public async Task<List<UserViewModel>> GetList()
         {
             using var context = new DataBaseConnection();
-            List<User> users = context.Users.ToList();
+            List<User> users = context.Users.Where(x => x.role != UserRole.Non_Auth).ToList();
             List<UserViewModel> views = new List<UserViewModel>();
             foreach (var user in users)
                 views.Add(await user.GetViewModel());
             return views;
         }
+        public async Task<long> UpdateEmail(long id, string email)
+        {
+            using var context = new DataBaseConnection();
+            using var transaction = context.Database.BeginTransaction();
+            try
+            {
+                var element = context.Users
+                .FirstOrDefault(rec => rec.Id == id);
+                if (element == null)
+                    throw new NullReferenceException();
+                element.email = email;
 
+                context.SaveChanges();
+                transaction.Commit();
+                return element.Id;
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception("Ошибка при обновлении пользователя");
+            }
+        }
+        public async Task<long> UpdateCode(long id, string code)
+        {
+            using var context = new DataBaseConnection();
+            using var transaction = context.Database.BeginTransaction();
+            try
+            {
+                var element = context.Users
+                .FirstOrDefault(rec => rec.Id == id);
+                if (element == null)
+                    throw new NullReferenceException();
+                element.code = code;
+
+                context.SaveChanges();
+                transaction.Commit();
+                return element.Id;
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                throw new Exception("Ошибка при обновлении пользователя");
+            }
+        }
+        
         public async Task<bool> Update(UserBindingModel model)
         {
             using var context = new DataBaseConnection();
@@ -127,7 +207,6 @@ namespace PortfolioT.DataBase.Storage
                     throw new NullReferenceException();
                 element.login = model.login;
                 element.password = model.password;
-                element.email = model.email;
                 element.about = model.about;
 
                 string path = fileSaver.prepareUsersDict();

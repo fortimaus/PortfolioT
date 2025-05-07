@@ -16,6 +16,8 @@ namespace PortfolioT.DataContracts.BindingModels
 
         public byte[]? preview { get; set; }
 
+        public string code { get; set; } = string.Empty;
+
         public UserRole role { get; set; } = UserRole.None;
 
         public UserStatus status { get; set; } = UserStatus.None;

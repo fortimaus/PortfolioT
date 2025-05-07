@@ -32,7 +32,7 @@ namespace PortfolioT.Analysis
         {
             bool check = false;
             Stopwatch stopwatch = new Stopwatch();
-            Console.WriteLine($"Start analisys: {fullName}");
+            //Console.WriteLine($"Start analisys: {fullName}");
             stopwatch.Start();
             switch (language.ToLower())
             {
@@ -47,45 +47,60 @@ namespace PortfolioT.Analysis
                     break;
             }
             stopwatch.Stop();
-            Console.WriteLine($"Name: {fullName} Time: {stopwatch.ElapsedMilliseconds / 1000}");
+            //Console.WriteLine($"Name: {fullName} Time: {stopwatch.ElapsedMilliseconds / 1000}");
             return check;
 
         }
         public async Task<AnalisysResponse> getResultAnalisys(int id, string name)
         {
             string str = "";
-            MetricResponse metrics;
+            MetricResponse? metrics;
             AnalisysResponse analisys = new AnalisysResponse(id);
-            for(int i = 1; ; i++)
+
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"{URL_SONAR_SERVER}/api/measures/component?additionalFields=metrics&component={name}&metricKeys=software_quality_reliability_rating,software_quality_maintainability_rating,software_quality_security_rating,ncloc");
+            request.Headers.Add("Authorization", $"Bearer {SONAR_TOKEN}");
+            
+            using HttpResponseMessage response = await httpClient.SendAsync(request);
+            
+            bool againLoop = !response.IsSuccessStatusCode;
+            int i = 0;
+
+            while (againLoop && i < count_req)
             {
-                using var request = new HttpRequestMessage(HttpMethod.Get, $"{URL_SONAR_SERVER}/api/measures/component?additionalFields=metrics&component={name}&metricKeys=software_quality_reliability_rating,software_quality_maintainability_rating,software_quality_security_rating,ncloc");
-                request.Headers.Add("Authorization", $"Bearer {SONAR_TOKEN}");
-                using HttpResponseMessage response = await httpClient.SendAsync(request);
-                if(!response.IsSuccessStatusCode)
+                i++;
+                using (var new_request = new HttpRequestMessage(HttpMethod.Get, $"{URL_SONAR_SERVER}/api/measures/component?additionalFields=metrics&component={name}&metricKeys=software_quality_reliability_rating,software_quality_maintainability_rating,software_quality_security_rating,ncloc"))
                 {
-                    if(i == 3)
+                    new_request.Headers.Add("Authorization", $"Bearer {SONAR_TOKEN}");
+                    using (HttpResponseMessage again_response = await httpClient.SendAsync(new_request))
                     {
-                        analisys.comments = "Ошибка при проведении анализа";
-                        return analisys;
+                        if (!again_response.IsSuccessStatusCode)
+                        {
+                            againLoop = true;
+                            await Task.Delay(2000);
+                            continue;
+                        }
+
+                        str = await response.Content.ReadAsStringAsync();
+                        metrics = JsonSerializer.Deserialize<MetricResponse>(str);
+                        if (metrics != null && metrics.measures.Count > 0)
+                        {
+                            againLoop = false;
+                            await Task.Delay(1000);
+                            break;
+                        }
                     }
-                        
-
-                    await Task.Delay(2000);
-                    continue;
                 }
-
-                str = await response.Content.ReadAsStringAsync();
-                metrics = JsonSerializer.Deserialize<MetricResponse>(str);
-                if (metrics.measures.Count == 0)
-                {
-                    i--;
-                    await Task.Delay(5000);
-                    continue;
-                }
-                else
-                    break;
-
+                
             }
+
+            if(againLoop)
+            {
+                analisys.comments = "Ошибка при проведении анализа";
+                return analisys;
+            }
+
+            str = await response.Content.ReadAsStringAsync();
+            metrics = JsonSerializer.Deserialize<MetricResponse>(str);
 
             List<string> comments = new List<string>();
             float scope = 0;

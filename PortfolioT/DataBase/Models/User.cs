@@ -18,6 +18,7 @@ namespace PortfolioT.DataBase.Models
 
         public string? about { get; set; } = string.Empty;
 
+        public string? code { get; set; } = string.Empty;
         public string? preview { get; set; } = string.Empty;
         [Required]
         public UserRole role { get; set; } = UserRole.None;

@@ -69,7 +69,7 @@ namespace PortfolioT.Analysis
             {
                 if (repo.empty)
                     continue;
-                Console.WriteLine(repo.name);
+                //Console.WriteLine(repo.name);
                 float scope_decor = 0;
                 float scope_bonus = 0;
 

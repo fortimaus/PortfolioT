@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioT.BusinessLogic.Exceptions;
 using PortfolioT.BusinessLogic.Logics;
@@ -17,6 +18,7 @@ namespace PortfolioT.Controllers
         ServiceLogic serviceLogic = new ServiceLogic();
 
         [HttpPost("create")]
+        [Authorize]
         public IActionResult Post(UserServiceBindingModel model)
         {
             try
@@ -38,6 +40,7 @@ namespace PortfolioT.Controllers
             
         }
         [HttpGet("{id}")]
+        [Authorize]
         public IActionResult GetByUsers(long id)
         {
             try
@@ -59,6 +62,7 @@ namespace PortfolioT.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetList()
         {
             try
@@ -81,6 +85,7 @@ namespace PortfolioT.Controllers
         }
 
         [HttpGet("type")]
+        [Authorize]
         public IActionResult GetByType(TypeService type)
         {
             try
@@ -102,6 +107,7 @@ namespace PortfolioT.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize]
         public IActionResult Update(UserServiceBindingModel model)
         {
             try
@@ -123,6 +129,7 @@ namespace PortfolioT.Controllers
         }
 
         [HttpDelete("delete")]
+        [Authorize]
         public IActionResult Delete(UserServiceBindingModel model)
         {
             try

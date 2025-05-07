@@ -3,6 +3,7 @@
     public enum UserRole
     {
         None,
+        Non_Auth,
         User,
         Moderator,
         Admin

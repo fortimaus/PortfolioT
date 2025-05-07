@@ -9,6 +9,7 @@ using TestS.Commons;
 using TestS.DB;
 
 HttpClient httpClient = new HttpClient();
+GitService gitService = new GitService();
 using DBConnection context = new DBConnection();
 
 var response = await httpClient.GetAsync($"https://git.is.ulstu.ru/api/v1/users/search");
@@ -19,21 +20,23 @@ DBclear();
 
 Console.WriteLine("Стартуем");
 Stopwatch watchOver = new Stopwatch();
-
-int bath = 5;
-int pages = (int)Math.Ceiling((float)searchResponse.data.Count() / bath);
-
 watchOver.Start();
-for (int i = 0; i < pages; i++)
+
+int i = 0;
+int all = searchResponse.data.Count();
+foreach(var user in searchResponse.data.Take(50))
 {
     
-    var tasks = searchResponse.data
-        .Skip(i * bath)
-        .Take(bath).Select(x => analisys(x.login));
-    await Task.WhenAll(tasks);
+    //Console.Clear();
+    //Console.WriteLine($"page {i}/{all} ||| {((float)i / all) * 100}%");
+    Console.WriteLine(user.login);
+    await analisys(user.login);
+    
+    i++;
 }
-
 watchOver.Stop();
+
+
 int users = context.Users.Count();
 int repos = context.Users.Sum(x => x.count_repo) ?? 0;
 Console.WriteLine("Финиш:");
@@ -63,8 +66,7 @@ async Task<int> analisys(string name)
 {
     try
     {
-        Console.WriteLine(name);
-        GitService gitService = new GitService();
+        
         Stopwatch watchInner = new Stopwatch();
         watchInner.Start();
 
@@ -75,12 +77,16 @@ async Task<int> analisys(string name)
         });
 
         watchInner.Stop();
+        Console.Write($" {watchInner.ElapsedMilliseconds / 1000} sec \n");
         createEn(name, repositories.Count, watchInner.ElapsedMilliseconds / 1000);
 
         return repositories.Count;
     }
-    catch
+    catch(Exception ex)
     {
+        Console.WriteLine(ex.InnerException);
+        Console.WriteLine(ex.StackTrace);
+        Console.Write($" Error: {ex.Message}\n");
         return 0;
     }
     

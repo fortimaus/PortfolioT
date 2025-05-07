@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioT.BusinessLogic.Exceptions;
 using PortfolioT.BusinessLogic.Logics;
@@ -15,18 +16,12 @@ namespace PortfolioT.Controllers
     {
         ArticleLogic articleLogic = new ArticleLogic();
         [HttpPost("create")]
+        [Authorize]
         public async Task<IActionResult> Post(ArticleBindingModel model)
         {
             try
             {
-                testImage test = new testImage();
-                byte[] prev = await test.preview();
-                byte[] im1 = await test.image1();
-                byte[] im2 = await test.image2();
-                model.preview = prev;
-                model.images = new List<(long, byte[])>();
-                model.images.Add((-1, im1));
-                model.images.Add((-1, im2));
+
                 return Ok(await articleLogic.Create(model));
             }
             catch (InvalidException ex)
@@ -45,6 +40,7 @@ namespace PortfolioT.Controllers
         }
         // GET api/<ArticleController>/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult?> Get(long id)
         {
             try
@@ -66,6 +62,7 @@ namespace PortfolioT.Controllers
 
         }
         [HttpPost("generate")]
+        [Authorize]
         public async Task<IActionResult> Generate(long id)
         {
             try
@@ -87,6 +84,7 @@ namespace PortfolioT.Controllers
         }
 
         [HttpPost("generate_service")]
+        [Authorize]
         public async Task<IActionResult> GenerateByService(long userId, long serviceId)
         {
             try
@@ -107,6 +105,7 @@ namespace PortfolioT.Controllers
             }
         }
         [HttpGet("user/{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUsers(long id)
         {
             try
@@ -130,17 +129,11 @@ namespace PortfolioT.Controllers
 
         // PUT api/<ArticleController>/5
         [HttpPut("update")]
+        [Authorize]
         public async Task<IActionResult> Put(ArticleBindingModel model)
         {
             try
             {
-                testImage test = new testImage();
-                byte[] prev = await test.preview();
-                byte[] im1 = await test.image1();
-                byte[] im2 = await test.image2();
-                model.preview = im2;
-                model.images = new List<(long, byte[])>();
-                model.images.Add((-1, im1));
                 return Ok(await articleLogic.Update(model));
             }
             catch (InvalidException ex)
@@ -159,6 +152,7 @@ namespace PortfolioT.Controllers
 
         // DELETE api/<ArticleController>/5
         [HttpDelete("delete/{id}")]
+        [Authorize]
         public IActionResult Delete(long id)
         {
             try

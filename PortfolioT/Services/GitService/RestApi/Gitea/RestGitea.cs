@@ -32,11 +32,8 @@ namespace PortfolioT.Services.GitService.RestApi.Gitea
         {
             get => @$"^{URL}\w*([-_.]\w+)*$";
         }
-        private HttpClient httpClient;
-        public RestGitea()
-        {
-            httpClient = new HttpClient();
-        }
+        private static HttpClient httpClient = new HttpClient();
+
         public async Task<bool> CheckUser(string userLogin)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, $"{API}/users/{userLogin}");
