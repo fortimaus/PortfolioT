@@ -20,7 +20,7 @@ using System.Text;
 
 namespace PortfolioT.Controllers
 {
-    [Route("api/users")]
+    [Route("api/users/")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -255,6 +255,7 @@ namespace PortfolioT.Controllers
             }
             
         }
+
         [HttpPost("comments")]
         [Authorize(Roles = $"Admin,Moderator")]
         public IActionResult CreateComment(UserCommentBindingModel model)
@@ -281,6 +282,7 @@ namespace PortfolioT.Controllers
             }
 
         }
+        
         [HttpGet("comments/{id}")]
         [Authorize]
         public IActionResult Comments(long id)

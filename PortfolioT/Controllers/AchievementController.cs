@@ -10,7 +10,7 @@ using PortfolioT.DataContracts.ViewModels;
 
 namespace PortfolioT.Controllers
 {
-    [Route("api/achievements")]
+    [Route("api/achievements/")]
     [ApiController]
     public class AchievementController : ControllerBase
     {
@@ -41,6 +41,7 @@ namespace PortfolioT.Controllers
             
         }
         // GET api/<AchievementController>/5
+        
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<IActionResult?> Get(long id)
@@ -63,7 +64,8 @@ namespace PortfolioT.Controllers
             }
             
         }
-        [HttpPost("generate")]
+        
+        [HttpPost("generate/{id}")]
         [Authorize]
         public async Task<IActionResult> Generate(long id)
         {
@@ -84,6 +86,7 @@ namespace PortfolioT.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
         [HttpGet("user/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetUsers(long id)

@@ -10,7 +10,7 @@ using PortfolioT.DataContracts.ViewModels;
 
 namespace PortfolioT.Controllers
 {
-    [Route("api/articles")]
+    [Route("api/articles/")]
     [ApiController]
     public class ArticleController : ControllerBase
     {

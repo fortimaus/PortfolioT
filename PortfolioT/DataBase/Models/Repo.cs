@@ -1,4 +1,5 @@
-﻿using PortfolioT.DataContracts.ViewModels;
+﻿using PortfolioT.Controllers.Commons;
+using PortfolioT.DataContracts.ViewModels;
 using PortfolioT.DataModels.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -33,9 +34,13 @@ namespace PortfolioT.DataBase.Models
             if (preview != null)
                 preview_data = await File.ReadAllBytesAsync(preview);
 
-            Dictionary<long, byte[]> ims = new Dictionary<long, byte[]>();
+            List<ImageResponse> ims = new List<ImageResponse>();
             foreach (var image in images)
-                ims.Add(image.Id, await File.ReadAllBytesAsync(image.path));
+                ims.Add(new ImageResponse()
+                {
+                    id = image.Id,
+                    image = await File.ReadAllBytesAsync(image.path)
+                });
             return new RepoViewModel()
             {
                 Id = Id,

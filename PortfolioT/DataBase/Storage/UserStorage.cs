@@ -101,8 +101,8 @@ namespace PortfolioT.DataBase.Storage
         public bool checkByEmail(string email)
         {
             using var context = new DataBaseConnection();
-            User? user = context.Users.FirstOrDefault(x => x.email.Equals(email));
-            if (user != null)
+            User? user = context.Users.FirstOrDefault(x => x.email.ToLower().Equals(email.ToLower()) && x.role != UserRole.Non_Auth);
+          if (user != null)
                 return false;
             return true;
         }

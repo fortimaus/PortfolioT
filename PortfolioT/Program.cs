@@ -32,13 +32,16 @@ builder.Services.AddAuthentication(opt => {
 
 var app = builder.Build();
 
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(builder => builder
+       .AllowAnyHeader()
+       .AllowAnyMethod()
+       .AllowAnyOrigin()
+    );
 MailKitWorker.getInstance(new MailConfigBindingModel
 {
     MailLogin = builder.Configuration?.GetSection("MailLogin")?.Value?.ToString() ?? string.Empty,
@@ -52,11 +55,7 @@ MailKitWorker.getInstance(new MailConfigBindingModel
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors(builder => builder
-       .AllowAnyHeader()
-       .AllowAnyMethod()
-       .AllowAnyOrigin()
-    );
+
 app.MapControllers();
 
 app.Run();

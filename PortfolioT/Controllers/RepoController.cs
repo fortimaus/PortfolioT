@@ -10,7 +10,7 @@ using PortfolioT.DataContracts.ViewModels;
 
 namespace PortfolioT.Controllers
 {
-    [Route("api/reposotories")]
+    [Route("api/reposotories/")]
     [ApiController]
     public class RepoController : ControllerBase
     {

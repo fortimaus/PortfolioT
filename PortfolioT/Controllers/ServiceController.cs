@@ -10,7 +10,7 @@ using PortfolioT.DataModels.Enums;
 
 namespace PortfolioT.Controllers
 {
-    [Route("api/services")]
+    [Route("api/services/")]
     [ApiController]
     public class ServiceController : ControllerBase
     {

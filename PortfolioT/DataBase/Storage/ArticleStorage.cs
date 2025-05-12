@@ -33,7 +33,8 @@ namespace PortfolioT.DataBase.Storage
                 link = model.link,
                 user = user,
                 words = model.words,
-                service = service
+                service = service,
+                basic = false
             };
 
             string path = fileSaver.prepareDictionary(NAME, user.Id);
@@ -49,7 +50,7 @@ namespace PortfolioT.DataBase.Storage
             context.SaveChanges();
             if(model.images != null)
             {
-                await imageStorage.Create(context,model.images.Select(x => x.Item2).ToList(), path, NAME, art.Entity.Id);
+                await imageStorage.Create(context,model.images.Select(x => x.image).ToList(), path, NAME, art.Entity.Id);
             }
             return true;
         }
@@ -59,7 +60,7 @@ namespace PortfolioT.DataBase.Storage
             using var context = new DataBaseConnection();
             var elements = context.Articles
                 .Include(x => x.images)
-                .Where(rec => rec.userId == id);
+                .Where(rec => rec.userId == id).ToList();
             foreach(var element in elements)
             {
                 if (element.preview != null)
@@ -146,12 +147,12 @@ namespace PortfolioT.DataBase.Storage
                 else
                 {
                     List<Image> deleteImage = element.images
-                        .Where(x => !model.images.Any(y => y.Item1 == x.Id)).ToList(); ;
+                        .Where(x => !model.images.Any(y => y.id == x.Id)).ToList(); ;
                     imageStorage.Delete(context, deleteImage);
 
                     List<byte[]> newImages = model.images
-                        .Where(x => x.Item1 == -1)
-                        .Select(x => x.Item2)
+                        .Where(x => x.id == -1)
+                        .Select(x => x.image)
                         .ToList();
                     await imageStorage.Create(context, newImages, path, NAME, element.Id);
                 }

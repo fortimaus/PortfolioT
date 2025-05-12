@@ -1,4 +1,5 @@
-﻿using PortfolioT.DataModels.Models;
+﻿using PortfolioT.Controllers.Commons;
+using PortfolioT.DataModels.Models;
 
 namespace PortfolioT.DataContracts.ViewModels
 {
@@ -14,7 +15,7 @@ namespace PortfolioT.DataContracts.ViewModels
 
         public byte[]? preview { get; set; }
 
-        public Dictionary<long, byte[]>? images { get; set; } = new();
+        public List<ImageResponse>? images { get; set; } = new();
 
         public long Id { get; set; }
 

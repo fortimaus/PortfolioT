@@ -1,4 +1,5 @@
-﻿using PortfolioT.DataModels.Models;
+﻿using PortfolioT.Controllers.Commons;
+using PortfolioT.DataModels.Models;
 
 namespace PortfolioT.DataContracts.BindingModels
 {
@@ -31,7 +32,7 @@ namespace PortfolioT.DataContracts.BindingModels
         public string comments { get; set; } = string.Empty;
         public string date { get; set; } = string.Empty;
 
-        public List<(long, byte[])>? images { get; set; } = new();
+        public List<ImageResponse>? images { get; set; } = new();
 
         public long Id { get; set; }
 

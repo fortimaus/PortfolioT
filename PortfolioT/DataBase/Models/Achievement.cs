@@ -1,4 +1,5 @@
-﻿using PortfolioT.DataContracts.BindingModels;
+﻿using PortfolioT.Controllers.Commons;
+using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.ViewModels;
 using PortfolioT.DataModels.Models;
 using System.ComponentModel.DataAnnotations;
@@ -16,6 +17,7 @@ namespace PortfolioT.DataBase.Models
         public string description { get; set; } = string.Empty;
 
         public string? link { get; set; } = string.Empty;
+        public bool basic { get; set; } = true;
 
         public string? preview { get; set; } = string.Empty;
 
@@ -38,9 +40,13 @@ namespace PortfolioT.DataBase.Models
             if (preview != null)
                 preview_data = await File.ReadAllBytesAsync(preview);
 
-            Dictionary<long, byte[]> ims = new Dictionary<long, byte[]>();
+            List<ImageResponse> ims = new List<ImageResponse>();
             foreach (var image in images)
-                ims.Add(image.Id, await File.ReadAllBytesAsync(image.path));
+                ims.Add(new ImageResponse()
+                {
+                    id = image.Id, 
+                    image = await File.ReadAllBytesAsync(image.path)
+                });
             return new AchievementViewModel()
             {
                 Id = Id,

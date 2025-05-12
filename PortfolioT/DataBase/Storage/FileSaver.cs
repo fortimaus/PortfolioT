@@ -39,7 +39,7 @@ namespace PortfolioT.DataBase.Storage
             while (File.Exists(@$"{path}\{image_name}"))
                 image_name = $@"preview_{randomName()}.png";
             await File.WriteAllBytesAsync(@$"{path}\{image_name}", data);
-            return image_name;
+            return @$"{path}\{image_name}";
         }
         public async Task<string> saveImage(string path,string name, long id, byte[] data)
         {

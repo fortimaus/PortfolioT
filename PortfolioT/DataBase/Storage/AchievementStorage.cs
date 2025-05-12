@@ -43,14 +43,14 @@ namespace PortfolioT.DataBase.Storage
                 newElement.preview = null;
             else
             {
-                string file_name = await fileSaver.savePreview(path, model.preview);
-                newElement.preview = @$"{path}\{file_name}";
+                string file_path = await fileSaver.savePreview(path, model.preview);
+                newElement.preview = @$"{file_path}";
             }
             var element = context.Achievements.Add(newElement);
             context.SaveChanges();
             if (model.images != null)
             {
-                await imageStorage.Create(context, model.images.Select(x => x.Item2).ToList(), path, NAME, element.Entity.Id);
+                await imageStorage.Create(context, model.images.Select(x => x.image).ToList(), path, NAME, element.Entity.Id);
             }
             return true;
         }
@@ -110,12 +110,12 @@ namespace PortfolioT.DataBase.Storage
                 else
                 {
                     List<Image> deleteImage = element.images
-                        .Where(x => !model.images.Any(y => y.Item1 == x.Id)).ToList();
+                        .Where(x => !model.images.Any(y => y.id == x.Id)).ToList();
                     imageStorage.Delete(context, deleteImage);
 
                     List<byte[]> newImages = model.images
-                        .Where(x => x.Item1 == -1)
-                        .Select(x => x.Item2)
+                        .Where(x => x.id == -1)
+                        .Select(x => x.image)
                         .ToList();
                     await imageStorage.Create(context, newImages, path, NAME, element.Id);
                 }
@@ -146,8 +146,8 @@ namespace PortfolioT.DataBase.Storage
         {
             using var context = new DataBaseConnection();
             List<AchievementViewModel> elements = new List<AchievementViewModel>();
-            foreach (var element in
-                 context.Achievements.Include(x => x.images).Where(x => x.userId == id ))
+            var user_ach = context.Achievements.Include(x => x.images).Where(x => x.userId == id && x.basic);
+            foreach (var element in user_ach)
             {
                 elements.Add(await element.GetViewModel());
             }
