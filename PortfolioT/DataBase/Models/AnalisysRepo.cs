@@ -11,6 +11,8 @@ namespace PortfolioT.DataBase.Models
         public string title { get; set; } = string.Empty;
 
         public string? link { get; set; } = string.Empty;
+
+        public string? language { get; set; } = string.Empty;
         public float scope_decor { get; set; } = 0;
         [Required]
         public float scope_code { get; set; } = 0;
@@ -37,6 +39,7 @@ namespace PortfolioT.DataBase.Models
                 userName = user.name,
                 userLink = user.link,
                 link = link,
+                
                 scope_decor = scope_code,
                 scope_code = scope_code,
                 scope_maintability = scope_maintability,

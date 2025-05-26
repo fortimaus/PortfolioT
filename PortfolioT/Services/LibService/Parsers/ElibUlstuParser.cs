@@ -33,10 +33,13 @@ namespace PortfolioT.Services.LibService.Parsers
             requestCockie.Headers.Add("User-Agent", "Mozilla");
 
             using var responseCockie = await httpClient.SendAsync(requestCockie);
-
-            string ASP_Cockie = responseCockie.Headers.GetValues("Set-Cookie")
+            string ASP_Cockie = null;
+            if (responseCockie.Headers.Contains("Set-Cookie"))
+            {
+                 ASP_Cockie = responseCockie.Headers.GetValues("Set-Cookie")
                 .Single(x => x.Contains("ASP.NET_SessionId"))
                 .Split(' ').Single(x => x.Contains("ASP.NET_SessionId"));
+            }
             //Console.WriteLine("Get Token");
             Dictionary<string, string> dataDb = new Dictionary<string, string>()
             {
@@ -45,8 +48,8 @@ namespace PortfolioT.Services.LibService.Parsers
             HttpContent contentDb = new FormUrlEncodedContent(dataDb);
 
             using var requestDb = new HttpRequestMessage(HttpMethod.Post, URL_CHANGE_DB);
-            
-            requestDb.Headers.Add("Cookie", ASP_Cockie);
+            if(ASP_Cockie != null)
+                requestDb.Headers.Add("Cookie", ASP_Cockie);
             requestDb.Headers.Add("Accept", "*/*");
             requestDb.Headers.Add("Host", "elib.ulstu.ru");
             requestDb.Headers.Add("User-Agent", "Mozilla");
@@ -59,7 +62,8 @@ namespace PortfolioT.Services.LibService.Parsers
             HttpContent contentForm = new FormUrlEncodedContent(data);
 
             using var requestSearch = new HttpRequestMessage(HttpMethod.Post, URL_ARTICLE);
-            requestSearch.Headers.Add("Cookie", ASP_Cockie);
+            if(ASP_Cockie != null)
+                requestSearch.Headers.Add("Cookie", ASP_Cockie);
             requestSearch.Headers.Add("Accept", "*/*");
             requestSearch.Headers.Add("Host", "elib.ulstu.ru");
             requestSearch.Headers.Add("User-Agent", "Mozilla");
@@ -111,7 +115,8 @@ namespace PortfolioT.Services.LibService.Parsers
         private async Task<HtmlDocument> getHtmlFromPage(int page, string ASP_Cockie)
         {
             using var requestSearch = new HttpRequestMessage(HttpMethod.Post, $"{URL_PAGE}{page}");
-            requestSearch.Headers.Add("Cookie", ASP_Cockie);
+            if(ASP_Cockie != null)
+                requestSearch.Headers.Add("Cookie", ASP_Cockie);
             requestSearch.Headers.Add("Accept", "*/*");
             requestSearch.Headers.Add("Host", "elib.ulstu.ru");
             requestSearch.Headers.Add("User-Agent", "Mozilla");

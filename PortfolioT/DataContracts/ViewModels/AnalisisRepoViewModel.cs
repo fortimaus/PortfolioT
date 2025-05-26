@@ -20,6 +20,7 @@ namespace PortfolioT.DataContracts.ViewModels
 
         public string userName { get; set; } = string.Empty;
 
+        public Dictionary<string, int> langugeCount = new Dictionary<string, int>();
         public long userId { get; set; }
         public DateTime date {get; set;}
     }

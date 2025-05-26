@@ -14,10 +14,12 @@ namespace PortfolioT.BusinessLogic.Logics
         ArticleStorage articleStorage;
         LibService libService;
         UserServiceStorage serviceStorage;
+        UserStorage userStorage;
         public ArticleLogic()
         {
             articleStorage = new ArticleStorage();
             serviceStorage = new UserServiceStorage();
+            userStorage = new UserStorage();
             libService = new LibService();
         }
         public async Task<bool> Create(ArticleBindingModel model)
@@ -38,7 +40,10 @@ namespace PortfolioT.BusinessLogic.Logics
         {
             try
             {
-                return articleStorage.Delete(id);
+                long userId = articleStorage.GetUser(id);
+                articleStorage.Delete(id);
+                userStorage.updateRating(userId);
+                return true;
             }
             catch
             {
@@ -111,6 +116,7 @@ namespace PortfolioT.BusinessLogic.Logics
                     article.userId = userId;
                     await articleStorage.Create(article);
                 }
+                userStorage.updateRating(userId);
                 return true;
             }
             catch
@@ -134,6 +140,7 @@ namespace PortfolioT.BusinessLogic.Logics
                     article.userId = userId;
                     await articleStorage.Create(article);
                 }
+                userStorage.updateRating(userId);
                 return true;
             }
             catch

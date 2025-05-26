@@ -55,7 +55,8 @@ namespace PortfolioT.DataBase.Models
                 scope_security = scope_security,
                 scope_maintability = scope_maintability,
                 scope_reability = scope_reability,
-                images = ims
+                images = ims,
+                comments = comments
             };
         }
     }

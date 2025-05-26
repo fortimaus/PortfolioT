@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PortfolioT.Controllers.Commons;
+using PortfolioT.DataBase.Commons;
 using PortfolioT.DataBase.Models;
 using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.StorageContracts;
@@ -9,27 +11,37 @@ namespace PortfolioT.DataBase.Storage
 {
     public class AnalisisRepoStorage : IAnalisisRepoStorage
     {
-        public AnalisisRepoViewModel GetAverage(long userId)
+        public CompareUserRepoInfo GetAverage(long userId)
         {
             using var context = new DataBaseConnection();
-            AnalisisRepoViewModel element = new AnalisisRepoViewModel();
-            AnalisisUser? user = context.AnalisysUsers.FirstOrDefault(x => x.Id == userId);
-            if (user == null)
-                return null;
-
+            CompareUserRepoInfo element = new CompareUserRepoInfo();
             List<AnalisysRepo>? elements = context.Analisys
                 .Include(x => x.user)
                 .Where(x => x.userId == userId).ToList();
-
-            element.userLink = user.link;
             
-            element.scope_code = elements.Average(x => x.scope_code);
-            element.scope_decor = elements.Average(x => x.scope_decor);
+            element.scopeCode = elements.Average(x => x.scope_code);
+            element.scopeDecor = elements.Average(x => x.scope_decor);
 
-            element.scope_security = elements.Average(x => x.scope_security);
-            element.scope_maintability = elements.Average(x => x.scope_maintability);
-            element.scope_reability = elements.Average(x => x.scope_reability);
-
+            element.scopeSecurity = elements.Average(x => x.scope_security);
+            element.scopeMaintability = elements.Average(x => x.scope_maintability);
+            element.scopeReability = elements.Average(x => x.scope_reability);
+            Dictionary<string, int> languages = new Dictionary<string, int>();
+            foreach (var item in elements)
+            {
+                if(item.language == null || item.language.Length == 0)
+                {
+                    if (!languages.ContainsKey("other"))
+                        languages.Add("other", 1);
+                    else
+                        languages["other"]++;
+                    continue;
+                }
+                if (!languages.ContainsKey(item.language))
+                    languages.Add(item.language, 1);
+                else
+                    languages[item.language]++;
+            }
+            element.languageCounts = languages;
             return element;
         }
 
@@ -69,6 +81,7 @@ namespace PortfolioT.DataBase.Storage
                 scope_reability = model.scope_reability,
                 scope_security = model.scope_security,
                 user = user,
+                language = model.language,
                 date = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc)
 
             };
@@ -90,6 +103,7 @@ namespace PortfolioT.DataBase.Storage
                 {
                     title = model.title,
                     link = model.link,
+                    language = model.language,
                     scope_code = model.scope_code,
                     scope_decor = model.scope_decor,
                     scope_maintability = model.scope_maintability,

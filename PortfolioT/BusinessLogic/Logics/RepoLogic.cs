@@ -1,5 +1,6 @@
 ﻿using PortfolioT.BusinessLogic.Exceptions;
 using PortfolioT.DataBase;
+using PortfolioT.DataBase.Commons;
 using PortfolioT.DataBase.Models;
 using PortfolioT.DataBase.Storage;
 using PortfolioT.DataContracts.BindingModels;
@@ -20,6 +21,7 @@ namespace PortfolioT.BusinessLogic.Logics
     {
         RepoStorage repoStorage;
         UserServiceStorage serviceStorage;
+        UserStorage userStorage;
         GitService gitService;
 
         AnalisysUserStorage analisysUserStorage;
@@ -29,6 +31,7 @@ namespace PortfolioT.BusinessLogic.Logics
             repoStorage = new RepoStorage();
             serviceStorage = new UserServiceStorage();
             gitService = new GitService();
+            userStorage = new UserStorage();
 
             analisisRepoStorage = new AnalisisRepoStorage();
             analisysUserStorage = new AnalisysUserStorage();
@@ -51,7 +54,10 @@ namespace PortfolioT.BusinessLogic.Logics
         {
             try
             {
-                return repoStorage.Delete(id);
+                long userId = repoStorage.GetUser(id);
+                repoStorage.Delete(id);
+                userStorage.updateRating(userId);
+                return true;
             }
             catch
             {
@@ -123,6 +129,7 @@ namespace PortfolioT.BusinessLogic.Logics
                     repo.userId = userId;
                     await repoStorage.Create(repo);
                 }
+                userStorage.updateRating(userId);
                 return await repoStorage.GetList(userId);
             }
             catch
@@ -151,6 +158,7 @@ namespace PortfolioT.BusinessLogic.Logics
                     repo.userId = userId;
                     await repoStorage.Create(repo);
                 }
+                userStorage.updateRating(userId);
                 return await repoStorage.GetList(userId);
             }
             catch
@@ -182,6 +190,7 @@ namespace PortfolioT.BusinessLogic.Logics
                     analisisRepoStorage.Create(new AnalisisRepoBindingModel()
                     {
                         title = repo.title,
+                        language = repo.language,
                         serviceId = serviceId,
                         userId = user.Id,
                         link = repo.link,
@@ -203,7 +212,15 @@ namespace PortfolioT.BusinessLogic.Logics
             
         }
 
-        public async Task<AnalisisRepoViewModel> differenceManyRepo(long serviceId, string userName)
+        public CompareUserRepoInfo averageUser(long id)
+        {
+            return repoStorage.GetAverage(id);
+        }
+        public CompareUserRepoInfo averageAllUsers()
+        {
+            return repoStorage.GetAverageAllUsers();
+        }
+        public async Task<CompareUserRepoInfo> differenceManyRepo(long serviceId, string userName)
         {
             try
             {
@@ -240,6 +257,7 @@ namespace PortfolioT.BusinessLogic.Logics
                     {
                         title = x.title,
                         link = x.link,
+                        language = x.language,
                         userId = user.Id,
                         serviceId = serviceId,
                         scope_code = x.scope_code,

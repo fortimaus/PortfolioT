@@ -29,7 +29,7 @@ namespace PortfolioT.DataBase.Storage
             return true;
         }
 
-        public List<UserCommentViewModel> UserComments(long userId)
+        public async Task<List<UserCommentViewModel>> UserComments(long userId)
         {
             using var context = new DataBaseConnection();
             List<UserCommentViewModel> elements = new List<UserCommentViewModel>();
@@ -37,7 +37,10 @@ namespace PortfolioT.DataBase.Storage
                  context.UserComments.Include(x => x.moderator)
                  .Where(x => x.userId == userId).OrderByDescending(x => x.date))
             {
-                elements.Add(element.GetUserCommentViewModel());
+                var viewModel = element.GetUserCommentViewModel();
+                if(element.moderator.preview != null)
+                    viewModel.avatar = await File.ReadAllBytesAsync(element.moderator.preview);
+                elements.Add(viewModel);
             }
             return elements;
         }

@@ -1,0 +1,288 @@
+2025-05-14 14:01:31.7749 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 14:01:31.7890 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 14:01:31.7890 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 14:01:31.8080 Info Validating config: TargetNames=logfile, console, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 14:01:31.8080 Info Configuration initialized.
+2025-05-14 14:02:59.5013 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 14:02:59.6288 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 14:02:59.6357 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 14:02:59.6497 Info Validating config: TargetNames=logfile, console, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 14:02:59.6497 Info Configuration initialized.
+2025-05-14 14:06:29.1364 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 14:06:29.1451 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 14:06:29.1508 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 14:06:29.1508 Info Validating config: TargetNames=logfile, console, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 14:06:29.1675 Info Configuration initialized.
+2025-05-14 14:08:13.9207 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 14:08:14.0485 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 14:08:14.0571 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 14:08:14.0717 Info Validating config: TargetNames=logfile, console, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 14:08:14.0882 Info Configuration initialized.
+2025-05-14 14:54:54.0732 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 14:54:54.2389 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 14:54:54.2531 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 14:54:54.2642 Info Validating config: TargetNames=logfile, console, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 14:54:54.2739 Info Configuration initialized.
+2025-05-14 15:00:56.4425 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 15:00:56.6141 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 15:00:56.6197 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 15:00:56.6197 Info Validating config: TargetNames=logfile, console, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 15:00:56.6388 Info Configuration initialized.
+2025-05-14 15:01:43.8414 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 15:01:43.8572 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 15:01:43.8690 Info Validating config: TargetNames=logfile, ConfigItems=14, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 15:01:43.8690 Info Configuration initialized.
+2025-05-14 15:03:47.1922 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 15:03:47.5662 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 15:03:47.5810 Info Validating config: TargetNames=logfile, ConfigItems=14, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 15:03:47.6028 Info Configuration initialized.
+2025-05-14 15:04:54.7888 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 15:04:54.9309 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 15:04:54.9309 Info Validating config: TargetNames=logfile, ConfigItems=14, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 15:04:54.9704 Info Configuration initialized.
+2025-05-14 15:05:41.2378 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 15:05:41.2524 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 15:05:41.2593 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 15:05:41.2593 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 15:05:41.2789 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 15:05:41.2789 Info Configuration initialized.
+2025-05-14 15:07:12.5994 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 15:07:12.7166 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 15:07:12.7166 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 15:07:12.7315 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 15:07:12.7315 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 15:07:12.7315 Info Configuration initialized.
+2025-05-14 15:08:27.8089 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 15:08:27.9598 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 15:08:27.9672 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 15:08:27.9806 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 15:08:27.9806 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 15:08:27.9929 Info Configuration initialized.
+2025-05-14 15:46:50.5461 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 15:46:50.6911 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 15:46:50.7018 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 15:46:50.7018 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 15:46:50.7138 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 15:46:50.7138 Info Configuration initialized.
+2025-05-14 19:10:31.2895 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 19:10:31.3171 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 19:10:31.3959 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 19:10:31.4046 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 19:10:31.4046 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 19:10:31.4163 Info Configuration initialized.
+2025-05-14 19:10:45.2049 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 19:10:45.2156 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 19:10:45.2156 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 19:10:45.2268 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 19:10:45.2268 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 19:10:45.2268 Info Configuration initialized.
+2025-05-14 19:14:54.2872 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 19:14:54.4283 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 19:14:54.4486 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 19:14:54.4607 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 19:14:54.4607 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 19:14:54.4607 Info Configuration initialized.
+2025-05-14 19:31:44.3397 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 19:31:44.5133 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 19:31:44.5133 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 19:31:44.5307 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 19:31:44.5307 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 19:31:44.5446 Info Configuration initialized.
+2025-05-14 19:57:35.7153 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 19:57:36.1972 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 19:57:36.1972 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 19:57:36.2798 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 19:57:36.2903 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 19:57:36.3130 Info Configuration initialized.
+2025-05-14 19:59:11.6238 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 19:59:11.6584 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 19:59:11.6847 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 19:59:11.7992 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 19:59:11.8063 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 19:59:11.8063 Info Configuration initialized.
+2025-05-14 20:01:19.6301 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-14 20:01:19.8236 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-14 20:01:19.8368 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-14 20:01:19.8540 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-14 20:01:19.8540 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-14 20:01:19.8851 Info Configuration initialized.
+2025-05-15 00:35:44.9290 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-15 00:35:44.9418 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-15 00:35:44.9515 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-15 00:35:44.9608 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-15 00:35:44.9608 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-15 00:35:44.9608 Info Configuration initialized.
+2025-05-19 08:24:57.7537 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-19 08:24:58.3427 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-19 08:24:58.4170 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-19 08:24:58.4585 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-19 08:24:58.4685 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-19 08:24:58.4818 Info Configuration initialized.
+2025-05-19 08:30:22.1381 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-19 08:30:22.1506 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-19 08:30:22.1506 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-19 08:30:22.1725 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-19 08:30:22.2104 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-19 08:30:22.2622 Info Configuration initialized.
+2025-05-19 11:36:14.3545 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-19 11:36:14.5187 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-19 11:36:14.5334 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-19 11:36:14.5461 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-19 11:36:14.5461 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-19 11:36:14.5585 Info Configuration initialized.
+2025-05-19 22:38:02.9634 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-19 22:38:03.1429 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-19 22:38:03.1621 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-19 22:38:03.1749 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-19 22:38:03.1798 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-19 22:38:03.1798 Info Configuration initialized.
+2025-05-20 10:19:39.4551 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 10:19:39.5657 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 10:19:39.5812 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 10:19:39.5940 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 10:19:39.5940 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 10:19:39.6066 Info Configuration initialized.
+2025-05-20 10:30:39.1893 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 10:30:39.3829 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 10:30:39.3874 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 10:30:39.3874 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 10:30:39.4018 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 10:30:39.4018 Info Configuration initialized.
+2025-05-20 10:32:32.0877 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 10:32:32.2135 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 10:32:32.2194 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 10:32:32.2312 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 10:32:32.2312 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 10:32:32.2487 Info Configuration initialized.
+2025-05-20 10:33:04.0140 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 10:33:04.0251 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 10:33:04.0251 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 10:33:04.0475 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 10:33:04.0549 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 10:33:04.0752 Info Configuration initialized.
+2025-05-20 10:35:04.5641 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 10:35:04.6697 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 10:35:04.6697 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 10:35:04.6697 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 10:35:04.6865 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 10:35:04.6865 Info Configuration initialized.
+2025-05-20 11:04:39.7795 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 11:04:39.9019 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 11:04:39.9019 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 11:04:39.9202 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 11:04:39.9202 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 11:04:39.9314 Info Configuration initialized.
+2025-05-20 11:20:48.1364 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 11:20:48.3232 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 11:20:48.3232 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 11:20:48.3499 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 11:20:48.3673 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 11:20:48.3830 Info Configuration initialized.
+2025-05-20 11:41:31.7720 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 11:41:31.9107 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 11:41:31.9152 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 11:41:31.9152 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 11:41:31.9323 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 11:41:31.9323 Info Configuration initialized.
+2025-05-20 11:47:45.1784 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 11:47:45.3031 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 11:47:45.3170 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 11:47:45.3269 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 11:47:45.3379 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 11:47:45.3379 Info Configuration initialized.
+2025-05-20 11:49:44.5111 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 11:49:44.5289 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 11:49:44.5289 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 11:49:44.5476 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 11:49:44.5476 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 11:49:44.5634 Info Configuration initialized.
+2025-05-20 12:21:03.8223 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 12:21:04.1467 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 12:21:04.1526 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 12:21:04.1526 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 12:21:04.1687 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 12:21:04.1687 Info Configuration initialized.
+2025-05-20 12:30:36.6987 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 12:30:37.0733 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 12:30:37.0733 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 12:30:37.0943 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 12:30:37.0943 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 12:30:37.1144 Info Configuration initialized.
+2025-05-20 13:12:42.7343 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 13:12:42.9274 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 13:12:42.9537 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 13:12:42.9729 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 13:12:42.9729 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 13:12:42.9875 Info Configuration initialized.
+2025-05-20 13:25:10.7404 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 13:25:10.9775 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 13:25:11.0004 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 13:25:11.0586 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 13:25:11.1084 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 13:25:11.1277 Info Configuration initialized.
+2025-05-20 14:05:42.3884 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 14:05:42.5187 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 14:05:42.5242 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 14:05:42.5242 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 14:05:42.5401 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 14:05:42.5401 Info Configuration initialized.
+2025-05-20 14:34:57.4286 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 14:34:57.7613 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 14:34:57.7613 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 14:34:57.7822 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 14:34:57.7952 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 14:34:57.7952 Info Configuration initialized.
+2025-05-20 14:44:05.1699 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 14:44:05.3491 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 14:44:05.3592 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 14:44:05.3685 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 14:44:05.3685 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 14:44:05.3858 Info Configuration initialized.
+2025-05-20 14:50:24.1260 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 14:50:24.1634 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 14:50:24.1726 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 14:50:24.1912 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 14:50:24.2002 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 14:50:24.2133 Info Configuration initialized.
+2025-05-20 16:54:43.0403 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 16:54:43.2157 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 16:54:43.2253 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 16:54:43.2355 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 16:54:43.2355 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 16:54:43.2449 Info Configuration initialized.
+2025-05-20 17:14:27.6345 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 17:14:27.9715 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 17:14:27.9811 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 17:14:27.9993 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 17:14:27.9993 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 17:14:28.0148 Info Configuration initialized.
+2025-05-20 21:36:38.3619 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 21:36:38.6819 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 21:36:38.6944 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 21:36:38.7029 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 21:36:38.7029 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 21:36:38.7154 Info Configuration initialized.
+2025-05-20 22:59:29.6828 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 22:59:29.7016 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 22:59:29.7177 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 22:59:29.7345 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 22:59:29.7345 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 22:59:29.7511 Info Configuration initialized.
+2025-05-20 23:18:30.1426 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 23:18:30.5308 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 23:18:30.5308 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 23:18:30.5660 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 23:18:30.5885 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 23:18:30.6045 Info Configuration initialized.
+2025-05-20 23:45:11.2188 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-20 23:45:11.2344 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-20 23:45:11.2548 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-20 23:45:11.2648 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-20 23:45:11.2648 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-20 23:45:11.2794 Info Configuration initialized.
+2025-05-21 23:48:20.0255 Info Registered target NLog.Targets.FileTarget(Name=logfile)
+2025-05-21 23:48:20.0445 Info Registered target NLog.Targets.ConsoleTarget(Name=console)
+2025-05-21 23:48:20.1663 Info NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 5.4.0.3182. Product version: 5.4.0+4d45d445601312040107cbe2ac00e56c4bf4a60b. GlobalAssemblyCache: False
+2025-05-21 23:48:20.1813 Info Validating config: TargetNames=logfile, ConfigItems=23, FilePath=C:\Users\Вова\source\repos\PortfolioT\PortfolioT\nlog.config
+2025-05-21 23:48:20.1879 Warn Unused target detected. Add a rule for this target to the configuration. TargetName: console
+2025-05-21 23:48:20.1999 Info Configuration initialized.

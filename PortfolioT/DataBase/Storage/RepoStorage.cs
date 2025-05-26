@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HtmlAgilityPack;
+using Microsoft.EntityFrameworkCore;
+using PortfolioT.Controllers.Commons;
+using PortfolioT.DataBase.Commons;
 using PortfolioT.DataBase.Models;
 using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.BusinessLogicsContracts;
@@ -54,12 +57,95 @@ namespace PortfolioT.DataBase.Storage
             }
 
             var element = context.Achievements.Add(newElement);
+
             context.SaveChanges();
             if (model.images != null)
             {
                 await imageStorage.Create(context, model.images.Select(x => x.image).ToList(), path, NAME, element.Entity.Id);
             }
             return true;
+        }
+        public int countRepoByUser(long userId)
+        {
+            using var context = new DataBaseConnection();
+            int count = context.Repos.Count() > 0 ?
+                context.Repos
+                .Where(x => x.userId == userId).Count() : 0;
+            return count;
+        }
+        public int AverageCountRepo()
+        {
+            using var context = new DataBaseConnection();
+            int count = context.Repos.Count() > 0 ?
+                (int)context.Repos.GroupBy(x => x.userId).ToList().Average(x => x.Count()) : 0;
+            return count;
+        }
+        public CompareUserRepoInfo GetAverage(long userId)
+        {
+            using var context = new DataBaseConnection();
+            CompareUserRepoInfo element = new CompareUserRepoInfo();
+            List<Repo>? elements = context.Repos
+                .Where(x => x.userId == userId).ToList();
+            if (elements.Count == 0)
+                return element;
+            element.scopeCode = elements.Average(x => x.scope_code);
+            element.scopeDecor = elements.Average(x => x.scope_decor);
+
+            element.scopeSecurity = elements.Average(x => x.scope_security);
+            element.scopeMaintability = elements.Average(x => x.scope_maintability);
+            element.scopeReability = elements.Average(x => x.scope_reability);
+            element.scopeTeam = elements.Where(x => x.scope_team >0).Average(x => x.scope_team);
+            Dictionary<string, int> languages = new Dictionary<string, int>();
+            foreach (var item in elements)
+            {
+                if (item.language == null || item.language.Length == 0)
+                {
+                    if (!languages.ContainsKey("other"))
+                        languages.Add("other", 1);
+                    else
+                        languages["other"]++;
+                    continue;
+                }
+                if (!languages.ContainsKey(item.language))
+                    languages.Add(item.language, 1);
+                else
+                    languages[item.language]++;
+            }
+            element.languageCounts = languages;
+            return element;
+        }
+        public CompareUserRepoInfo GetAverageAllUsers()
+        {
+            using var context = new DataBaseConnection();
+            CompareUserRepoInfo element = new CompareUserRepoInfo();
+            List<Repo>? elements = context.Repos.ToList();
+            if (elements.Count == 0)
+                return element;
+            element.scopeCode = elements.Average(x => x.scope_code);
+            element.scopeDecor = elements.Average(x => x.scope_decor);
+
+            element.scopeSecurity = elements.Average(x => x.scope_security);
+            element.scopeMaintability = elements.Average(x => x.scope_maintability);
+            element.scopeReability = elements.Average(x => x.scope_reability);
+            element.scopeTeam = elements.Where(x => x.scope_team > 0).Average(x => x.scope_team);
+            Dictionary<string, int> languages = new Dictionary<string, int>();
+            foreach (var item in elements)
+            {
+                if (item.language == null || item.language.Length == 0)
+                {
+                    if (!languages.ContainsKey("other"))
+                        languages.Add("other", 1);
+                    else
+                        languages["other"]++;
+                    continue;
+                }
+                if (!languages.ContainsKey(item.language))
+                    languages.Add(item.language, 1);
+                else
+                    languages[item.language]++;
+            }
+            element.languageCounts = languages;
+            return element;
         }
 
         public void DeleteAll(long id)
@@ -140,8 +226,8 @@ namespace PortfolioT.DataBase.Storage
                 {
                     if (element.preview == null)
                     {
-                        string file_name = await fileSaver.savePreview(path, model.preview);
-                        element.preview = @$"{path}\{file_name}";
+                        string file_path = await fileSaver.savePreview(path, model.preview);
+                        element.preview = file_path;
                     }
                     else
                         await File.WriteAllBytesAsync(@$"{element.preview}", model.preview);
@@ -185,6 +271,13 @@ namespace PortfolioT.DataBase.Storage
             using var context = new DataBaseConnection();
             Repo? element = context.Repos.Include(x => x.images).FirstOrDefault(x => x.Id == id);
             return element == null ? null : await element.GetViewModel();
+        }
+
+        public long GetUser(long id)
+        {
+            using var context = new DataBaseConnection();
+            Repo? element = context.Repos.Include(x => x.images).FirstOrDefault(x => x.Id == id);
+            return element.userId;
         }
 
         public async Task<List<RepoViewModel>> GetList(long id)

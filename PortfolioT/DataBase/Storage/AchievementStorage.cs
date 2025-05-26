@@ -27,14 +27,15 @@ namespace PortfolioT.DataBase.Storage
             
             if (user == null)
                 throw new NullReferenceException("Не найден пользователь с заданным id");
-            
+
             Achievement newElement = new Achievement()
             {
                 title = model.title,
                 description = model.description,
                 link = model.link,
                 user = user,
-                service = null
+                service = null,
+                basic = true
             };
 
             string path = fileSaver.prepareDictionary(NAME, user.Id);
@@ -55,6 +56,22 @@ namespace PortfolioT.DataBase.Storage
             return true;
         }
 
+        public int countAchievemetByUser(long userId)
+        {
+            using var context = new DataBaseConnection();
+            int count = context.Achievements.Count() > 0 ?
+                context.Achievements
+                .Where(x => x.userId == userId && x.basic).Count() : 0;
+            return count;
+        }
+        public int AverageCountAchievemet()
+        {
+            using var context = new DataBaseConnection();
+            int count = 
+                (context.Achievements.Count() > 0 && context.Achievements.Where(x => x.basic).Count() > 0) ?
+                (int)context.Achievements.Where(x => x.basic).GroupBy(x => x.userId).ToList().Average(x => x.Count()) : 0;
+            return count;
+        }
         public bool Delete(long id)
         {
             using var context = new DataBaseConnection();

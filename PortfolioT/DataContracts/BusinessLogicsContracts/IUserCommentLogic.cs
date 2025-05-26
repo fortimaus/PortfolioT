@@ -6,6 +6,6 @@ namespace PortfolioT.DataContracts.BusinessLogicsContracts
     public interface IUserCommentLogic
     {
         bool Create(UserCommentBindingModel model);
-        List<UserCommentViewModel> UserComments(long userId);
+        Task<List<UserCommentViewModel>> UserComments(long userId);
     }
 }

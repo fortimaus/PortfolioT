@@ -11,7 +11,7 @@ namespace PortfolioT.DataContracts.BindingModels
 
         public float scope_code { get; set; }
 
-        public float scope_team { get; set; }
+        public float scope_team { get; set; } = -1;
 
         public float scope_security { get; set; }
 

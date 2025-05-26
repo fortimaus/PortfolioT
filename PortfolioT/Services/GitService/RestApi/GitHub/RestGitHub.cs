@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioT.Services.GitService.RestApi.GitHub
 {
-    class RestGitHub : IGitRestApi<GitHubRepository>
+    public class RestGitHub : IGitRestApi<GitHubRepository>
     {
         private int bathCommits = 15;
         private int bathRepository = 3;

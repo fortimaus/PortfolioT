@@ -27,11 +27,11 @@ namespace PortfolioT.BusinessLogic.Logics
             }
         }
 
-        public List<UserCommentViewModel> UserComments(long userId)
+        public async Task<List<UserCommentViewModel>> UserComments(long userId)
         {
             try
             {
-                return commentStorage.UserComments(userId);
+                return await commentStorage.UserComments(userId);
 
             }
             catch

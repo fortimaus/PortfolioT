@@ -29,7 +29,7 @@ namespace PortfolioT.DataContracts.ViewModels
 
         public string date { get; set; } = string.Empty;
 
-        public string comments { get; set; } = string.Empty;
+        public string? comments { get; set; } = string.Empty;
 
         public List<ImageResponse>? images { get; set; } = new();
 

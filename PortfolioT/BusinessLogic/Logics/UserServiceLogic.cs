@@ -31,11 +31,23 @@ namespace PortfolioT.BusinessLogic.Logics
 
         }
 
-        public bool Delete(UserServiceBindingModel model)
+        public UserServiceViewModel? Get(long userId, long serviceId)
         {
             try
             {
-                return serviceStorage.Delete(model);
+                return serviceStorage.GetUser(userId, serviceId);
+
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public bool Delete(long userId, long serviceId)
+        {
+            try
+            {
+                return serviceStorage.Delete(userId, serviceId);
 
             }
             catch

@@ -14,11 +14,23 @@ namespace PortfolioT.DataBase.Storage
 {
     public class UserStorage : IUserStorage
     {
+        private readonly float ARTICLE_SCOPE = 2; 
         private FileSaver fileSaver;
         public UserStorage()
         {
             fileSaver = new FileSaver();
         }
+        public void updateRating(long id)
+        {
+            using var context = new DataBaseConnection();
+            User user = context.Users.First(x => x.Id == id);
+            List<Repo> repos = context.Repos.Where(x => x.userId == id).ToList();
+            List<Article> articles = context.Articles.Where(x => x.userId == id).ToList();
+            float repoScope = repos.Select(x => x.scope_code + x.scope_decor + x.scope_team).Average();
+            float articleScope = articles.Count() <= 5 ? articles.Count() * ARTICLE_SCOPE : 10;
+            user.rating = repoScope * 0.9f + articleScope;
+            context.SaveChanges();
+            }
         public async Task<long> Create(UserBindingModel model)
         {
             using var context = new DataBaseConnection();
@@ -45,6 +57,16 @@ namespace PortfolioT.DataBase.Storage
             context.SaveChanges();
             
             return element.Entity.Id;
+        }
+        public float getAverageRate()
+        {
+            using var context = new DataBaseConnection();
+            return context.Users.Average(x=> x.rating);
+        }
+        public float getUserRate(long id)
+        {
+            using var context = new DataBaseConnection();
+            return context.Users.First(x => x.Id == id).rating;
         }
         private void DeleteByLoginNonAuth(string login)
         {
@@ -141,10 +163,17 @@ namespace PortfolioT.DataBase.Storage
             return  user == null ? null : await user.GetViewModel(); ;
         }
 
+        public async Task<UserViewModel?> GetByLogin(string login)
+        {
+            using var context = new DataBaseConnection();
+            User? user = context.Users.FirstOrDefault(x => x.login.ToLower().Equals(login.ToLower()));
+            return user == null ? null : await user.GetViewModel(); ;
+        }
+
         public async Task<List<UserViewModel>> GetList()
         {
             using var context = new DataBaseConnection();
-            List<User> users = context.Users.Where(x => x.role != UserRole.Non_Auth).ToList();
+            List<User> users = context.Users.Where(x => x.role != UserRole.Non_Auth).OrderByDescending(x => x.rating).ToList();
             List<UserViewModel> views = new List<UserViewModel>();
             foreach (var user in users)
                 views.Add(await user.GetViewModel());

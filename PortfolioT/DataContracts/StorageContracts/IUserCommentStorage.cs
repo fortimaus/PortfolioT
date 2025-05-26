@@ -6,7 +6,7 @@ namespace PortfolioT.DataContracts.StorageContracts
     public interface IUserCommentStorage
     {
         bool Create(UserCommentBindingModel model);
-        List<UserCommentViewModel> UserComments(long userId);
+        Task<List<UserCommentViewModel>> UserComments(long userId);
 
     }
 }

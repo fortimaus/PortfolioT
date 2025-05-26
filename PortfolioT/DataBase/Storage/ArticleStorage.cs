@@ -55,6 +55,21 @@ namespace PortfolioT.DataBase.Storage
             return true;
         }
 
+        public int countArticleByUser(long userId)
+        {
+            using var context = new DataBaseConnection();
+            int count = context.Articles.Count() > 0 ?
+                context.Articles
+                .Where(x => x.userId == userId).Count() : 0;
+            return count;
+        }
+        public int AverageCountArticles()
+        {
+            using var context = new DataBaseConnection();
+            int count = context.Articles.Count() > 0 ?
+                (int)context.Articles.GroupBy(x => x.userId).ToList().Average(x => x.Count()) : 0;
+            return count;
+        }
         public void DeleteAll(long id)
         {
             using var context = new DataBaseConnection();
@@ -71,6 +86,12 @@ namespace PortfolioT.DataBase.Storage
 
             context.Articles.RemoveRange(elements);
             context.SaveChanges();
+        }
+        public long GetUser(long id)
+        {
+            using var context = new DataBaseConnection();
+            Article? element = context.Articles.Include(x => x.images).FirstOrDefault(x => x.Id == id);
+            return element.userId;
         }
         public void DeleteByService(long userId, long serviceId)
         {
@@ -133,8 +154,8 @@ namespace PortfolioT.DataBase.Storage
                 {
                     if (element.preview == null)
                     {
-                        string file_name = await fileSaver.savePreview(path, model.preview);
-                        element.preview = @$"{path}\{file_name}";
+                        string file_path = await fileSaver.savePreview(path, model.preview);
+                        element.preview = file_path;
                     }
                     else
                         await File.WriteAllBytesAsync(@$"{element.preview}", model.preview);

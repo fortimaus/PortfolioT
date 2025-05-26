@@ -30,13 +30,13 @@ namespace PortfolioT.DataBase.Storage
             return true;
         }
 
-        public bool Delete(UserServiceBindingModel model)
+        public bool Delete(long userId, long serviceId)
         {
             using var context = new DataBaseConnection();
             UserService? userService = context.UserServices
                 .Include(x => x.user)
                 .Include(x => x.service)
-                .FirstOrDefault(x => x.userId == model.userId && x.serviceId == model.serviceId);
+                .FirstOrDefault(x => x.userId == userId && x.serviceId == serviceId);
             if (userService == null)
                 throw new NullReferenceException("Не найдены данные сервиса");
             context.UserServices.Remove(userService);

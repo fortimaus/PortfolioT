@@ -120,22 +120,30 @@ namespace PortfolioT.Services.GitService
         {
             RepositoryAnalysis analysis = new RepositoryAnalysis();
             IEnumerable<IRepository> repositories;
-            if (data.serviceId == InitServices.GitUlstu.Id)
+            try
             {
-                repositories = new List<GiteaRepository>();
-                repositories = await restGitea.getManyReposAsync(data.data);
+                if (data.serviceId == InitServices.GitUlstu.Id)
+                {
+                    repositories = new List<GiteaRepository>();
+                    repositories = await restGitea.getManyReposAsync(data.data);
+                }
+                else if (data.serviceId == InitServices.GitHub.Id)
+                {
+                    repositories = new List<GitHubRepository>();
+                    repositories = await restGitHub.getManyReposAsync(data.data);
+                }
+                else
+                {
+                    repositories = new List<IRepository>();
+                }
+                List<ResponseRepository> responses = await analysis.analysisRepository(repositories, data.data);
+                return responses.Select(x => x.GetRepoBindingModel(data.serviceId)).ToList();
             }
-            else if (data.serviceId == InitServices.GitHub.Id)
+            catch
             {
-                repositories = new List<GitHubRepository>();
-                repositories = await restGitHub.getManyReposAsync(data.data);
+                return new List<RepoBindingModel>();
             }
-            else
-            {
-                repositories = new List<IRepository>();
-            }
-            List<ResponseRepository> responses = await analysis.analysisRepository(repositories, data.data);
-            return responses.Select(x => x.GetRepoBindingModel(data.serviceId)).ToList();
+            
         }
         private async Task<RepoBindingModel> getAndAnalisysOne(long serviceId, string nameUser, string nameOwner, string repoName)
         {

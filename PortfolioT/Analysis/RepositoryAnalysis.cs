@@ -71,7 +71,7 @@ namespace PortfolioT.Analysis
                     continue;
                 //Console.WriteLine(repo.name);
                 float scope_decor = 0;
-                float scope_bonus = 0;
+                float scope_bonus = -1;
 
                 string comments = string.Empty;
 

@@ -9,6 +9,7 @@ namespace PortfolioT.DataContracts.ViewModels
         public long userId { get; set; }
         public DateTime date { get; set; }
 
+        public byte[]? avatar { get; set; }
         public string moderatorName { get; set; } = string.Empty;
         public long Id { get; set; }
     }

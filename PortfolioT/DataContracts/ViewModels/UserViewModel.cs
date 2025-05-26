@@ -10,6 +10,8 @@ namespace PortfolioT.DataContracts.ViewModels
 
         public string password { get; set; } = string.Empty;
 
+        public float rating { get; set; } = 0;
+
         public string email { get; set; } = string.Empty;
 
         public string? about { get; set; } = string.Empty;

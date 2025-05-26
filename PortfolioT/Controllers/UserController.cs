@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using PortfolioT.BusinessLogic.Exceptions;
 using PortfolioT.BusinessLogic.Logics;
 using PortfolioT.Controllers.Commons;
+using PortfolioT.DataBase.Commons;
 using PortfolioT.DataBase.Storage;
 using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.StorageContracts;
@@ -78,7 +79,7 @@ namespace PortfolioT.Controllers
         {
             try
             {
-                return Ok(userLogic.UpdateCodeForEmail(id, email));
+                return Ok(await userLogic.UpdateCodeForEmail(id, email));
             }
             catch (Exception ex)
             {
@@ -166,7 +167,49 @@ namespace PortfolioT.Controllers
             }
         }
 
+        [HttpGet("list")]
+        [Authorize]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                return Ok(await userLogic.GetList());
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
+        [HttpGet("byLogin")]
+        [Authorize]
+        public async Task<IActionResult> GetByLogin(string login)
+        {
+            try
+            {
+                return Ok(await userLogic.GetByLogin(login));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpPut("update")]
         [Authorize]
@@ -285,11 +328,36 @@ namespace PortfolioT.Controllers
         
         [HttpGet("comments/{id}")]
         [Authorize]
-        public IActionResult Comments(long id)
+        public async Task<IActionResult> Comments(long id)
         {
             try
             {
-                return Ok(commentLogic.UserComments(id));
+                var res = await commentLogic.UserComments(id);
+                return Ok( res );
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpGet("stats/{id}")]
+        [AllowAnonymous]
+        public IActionResult Stats(long id)
+        {
+            try
+            {
+                (UserStats, UserStats) stats = userLogic.getStats(id);
+                return Ok(new {user = stats.Item1, average = stats.Item2});
             }
             catch (InvalidException ex)
             {

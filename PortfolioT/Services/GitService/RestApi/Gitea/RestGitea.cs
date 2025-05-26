@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 
 namespace PortfolioT.Services.GitService.RestApi.Gitea
 {
-    class RestGitea : IGitRestApi<GiteaRepository>
+    public class RestGitea : IGitRestApi<GiteaRepository>
     {
         private int bathRepository = 3;
 
         private string name = InitServices.GitUlstu.title;
         private string path_zip = @"C:\test_zips";
-        private string API = "https://git.is.ulstu.ru/api/v1";
+        private string API = "http://git.is.ulstu.ru/api/v1";
         public static string URL = "https://git.is.ulstu.ru/";
         public string Name
         {
@@ -32,8 +32,8 @@ namespace PortfolioT.Services.GitService.RestApi.Gitea
         {
             get => @$"^{URL}\w*([-_.]\w+)*$";
         }
-        private static HttpClient httpClient = new HttpClient();
 
+        private static HttpClient httpClient = new HttpClient();
         public async Task<bool> CheckUser(string userLogin)
         {
             using var request = new HttpRequestMessage(HttpMethod.Get, $"{API}/users/{userLogin}");

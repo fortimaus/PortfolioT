@@ -6,6 +6,7 @@ namespace PortfolioT.DataContracts.BindingModels
     {
         public float scope_decor { get; set; }
 
+        public string? language { get; set; } = string.Empty;
         public float scope_code { get; set; }
 
         public float scope_security { get; set; }

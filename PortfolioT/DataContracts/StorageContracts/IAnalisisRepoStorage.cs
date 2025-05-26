@@ -1,4 +1,5 @@
-﻿using PortfolioT.DataContracts.BindingModels;
+﻿using PortfolioT.DataBase.Commons;
+using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.ViewModels;
 
 namespace PortfolioT.DataContracts.StorageContracts
@@ -12,6 +13,6 @@ namespace PortfolioT.DataContracts.StorageContracts
         bool Delete(long id);
         bool DeleteMany(List<long> ids);
         AnalisisRepoViewModel GetOne(long userId, string repo);
-        AnalisisRepoViewModel GetAverage( long userId);
+        CompareUserRepoInfo GetAverage( long userId);
     }
 }

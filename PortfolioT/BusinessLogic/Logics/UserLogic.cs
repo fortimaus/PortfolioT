@@ -1,7 +1,9 @@
 ﻿using PortfolioT.BusinessLogic.Exceptions;
+using PortfolioT.DataBase.Commons;
 using PortfolioT.DataBase.Storage;
 using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.BusinessLogicsContracts;
+using PortfolioT.DataContracts.StorageContracts;
 using PortfolioT.DataContracts.ViewModels;
 using PortfolioT.DataModels.Enums;
 using PortfolioT.MailWorker;
@@ -13,10 +15,17 @@ namespace PortfolioT.BusinessLogic.Logics
     public class UserLogic : IUserLogic
     {
         UserStorage userStorage;
+        RepoStorage repoStorage;
+        ArticleStorage articleStorage;
+        AchievementStorage achievementStorage;
         MailKitWorker kitWorker;
+        private readonly int ARTICLE_SCOPE = 2;
         public UserLogic()
         {
             userStorage = new UserStorage();
+            repoStorage = new RepoStorage();
+            articleStorage = new ArticleStorage();
+            achievementStorage = new AchievementStorage();
             kitWorker = MailKitWorker.getInstance();
         }
         private string generateCode()
@@ -149,6 +158,18 @@ namespace PortfolioT.BusinessLogic.Logics
                 throw;
             }
         }
+        public async Task<UserViewModel?> GetByLogin(string login)
+        {
+            try
+            {
+                return await userStorage.GetByLogin(login);
+
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         public async Task<List<UserViewModel>> GetList()
         {
@@ -184,7 +205,9 @@ namespace PortfolioT.BusinessLogic.Logics
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9]{2,17}))$";
                 if (!Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase))
                     throw new InvalidException("Неверный формат почты");
-
+                if (!userStorage.checkByEmail(email))
+                    throw new InvalidException("Почта занята");
+                
                 string code = generateCode();
                 sendEmail(email, code);
                 return await userStorage.UpdateCode(id, code);
@@ -207,6 +230,34 @@ namespace PortfolioT.BusinessLogic.Logics
                 throw;
             }
         }
+
+        public (UserStats, UserStats) getStats(long userId)
+        {
+            UserStats userStats = new UserStats();
+            UserStats averageStats = new UserStats();
+
+            userStats.countRepos = repoStorage.countRepoByUser(userId);
+            averageStats.countRepos = repoStorage.AverageCountRepo();
+
+            userStats.countArticles = articleStorage.countArticleByUser(userId);
+            averageStats.countArticles = articleStorage.AverageCountArticles();
+
+            userStats.countAchievements = achievementStorage.countAchievemetByUser(userId);
+            averageStats.countAchievements = achievementStorage.AverageCountAchievemet();
+
+            userStats.repoInfo = repoStorage.GetAverage(userId);
+            averageStats.repoInfo = repoStorage.GetAverageAllUsers();
+
+            userStats.averageScopeRepos = userStats.repoInfo.scopeCode + userStats.repoInfo.scopeDecor + userStats.repoInfo.scopeTeam;
+            averageStats.averageScopeRepos = averageStats.repoInfo.scopeCode + averageStats.repoInfo.scopeDecor + averageStats.repoInfo.scopeTeam;
+
+            userStats.scopeArticles = userStats.countArticles <= 5 ? userStats.countArticles * ARTICLE_SCOPE : 10;
+            averageStats.scopeArticles = averageStats.countArticles <= 5 ? averageStats.countArticles * ARTICLE_SCOPE : 10;
+
+            userStats.rating = userStorage.getUserRate(userId);
+            averageStats.rating = userStorage.getAverageRate();
+            return (userStats, averageStats);
+        }
         public void validate(UserBindingModel model, bool update = false)
         {
             string pattern = @"^(?("")(""[^""]+?""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
@@ -215,7 +266,7 @@ namespace PortfolioT.BusinessLogic.Logics
                 throw new InvalidException("Логин не должен быть пустым");
             if (model.password.Length == 0)
                 throw new InvalidException("Пароль не должен быть пустым");
-            if (!Regex.IsMatch(model.email, pattern, RegexOptions.IgnoreCase))
+            if ( !update && !Regex.IsMatch(model.email, pattern, RegexOptions.IgnoreCase))
                 throw new InvalidException("Неверный формат почты");
             if(!userStorage.checkByLogin(model.login))
                 throw new InvalidException("Логин занят");

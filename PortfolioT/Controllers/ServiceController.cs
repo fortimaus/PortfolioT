@@ -39,13 +39,35 @@ namespace PortfolioT.Controllers
             }
             
         }
-        [HttpGet("{id}")]
+        [HttpGet("user/{id}")]
         [Authorize]
         public IActionResult GetByUsers(long id)
         {
             try
             {
                 return Ok(userServiceLogic.GetUserList(id));
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("one")]
+        [Authorize]
+        public IActionResult GetById(long userId, long serviceId)
+        {
+            try
+            {
+                return Ok(userServiceLogic.Get(userId, serviceId));
             }
             catch (InvalidException ex)
             {
@@ -130,11 +152,11 @@ namespace PortfolioT.Controllers
 
         [HttpDelete("delete")]
         [Authorize]
-        public IActionResult Delete(UserServiceBindingModel model)
+        public IActionResult Delete(long userId, long serviceId)
         {
             try
             {
-                return Ok(userServiceLogic.Delete(model));
+                return Ok(userServiceLogic.Delete(userId, serviceId));
             }
             catch (InvalidException ex)
             {

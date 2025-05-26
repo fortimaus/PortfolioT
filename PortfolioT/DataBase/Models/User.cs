@@ -19,6 +19,8 @@ namespace PortfolioT.DataBase.Models
         public string? about { get; set; } = string.Empty;
 
         public string? code { get; set; } = string.Empty;
+
+        public float rating { get; set; } = 0;
         public string? preview { get; set; } = string.Empty;
         [Required]
         public UserRole role { get; set; } = UserRole.None;
@@ -48,7 +50,8 @@ namespace PortfolioT.DataBase.Models
                 about = about,
                 role = role,
                 status = status,
-                preview = preview_data
+                preview = preview_data,
+                rating = rating
             };
         }
     }

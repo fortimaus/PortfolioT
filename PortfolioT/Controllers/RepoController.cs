@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioT.BusinessLogic.Exceptions;
 using PortfolioT.BusinessLogic.Logics;
+using PortfolioT.Controllers.Commons;
+using PortfolioT.DataBase.Commons;
 using PortfolioT.DataBase.Storage;
 using PortfolioT.DataContracts.BindingModels;
 using PortfolioT.DataContracts.BusinessLogicsContracts;
@@ -176,11 +178,51 @@ namespace PortfolioT.Controllers
 
         [HttpPost("difference_many")]
         [Authorize]
-        public async Task<IActionResult> DifferenceMany(long serviceId, string userName)
+        public async Task<IActionResult> DifferenceMany(long serviceId, string userName, long userId)
         {
             try
             {
-                return Ok(await repoLogic.differenceManyRepo(serviceId,userName));
+                CompareUserRepoInfo myInfo = repoLogic.averageUser(userId);
+                CompareUserRepoInfo otherInfo = await repoLogic.differenceManyRepo(serviceId, userName);
+                CompareUserServiceResponse response = new CompareUserServiceResponse()
+                {
+                    myLanguageCounts = myInfo.languageCounts,
+                    myDecor = myInfo.scopeDecor,
+                    myCode = myInfo.scopeCode,
+                    myMaintability = myInfo.scopeMaintability,
+                    myReability = myInfo.scopeReability,
+                    mySecurity = myInfo.scopeSecurity,
+
+                    compareLanguageCounts = otherInfo.languageCounts,
+                    compareDecor = otherInfo.scopeDecor,
+                    compareCode = otherInfo.scopeCode,
+                    compareMaintability = otherInfo.scopeMaintability,
+                    compareReability = otherInfo.scopeReability,
+                    compareSecurity = otherInfo.scopeSecurity,
+                };
+                return Ok(response);
+            }
+            catch (InvalidException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (NullReferenceException ex)
+            {
+                return ValidationProblem(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("compareAll")]
+        [Authorize]
+        public async Task<IActionResult> compareAll()
+        {
+            try
+            {
+                return Ok(repoLogic.averageAllUsers());
             }
             catch (InvalidException ex)
             {
